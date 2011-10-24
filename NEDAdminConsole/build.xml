@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Deploy From Eclipse to Tomcat" >
+<property name="warfile" value="NEDAdminConsole"/>
+<target name="clean">
+<delete file="${warfile}.war"/>
+</target>
+<target name="unpack">
+<unwar src="${warfile}.war" dest="${warfile}" />
+</target>
+<target name="create">
+<war destfile="${warfile}.war" webxml="war/WEB-INF/web.xml" update="true">
+<classes dir="war/WEB-INF/classes"/>
+<fileset dir="war">
+<exclude name="war/WEB-INF/web.xml"/>
+</fileset>
+</war>
+</target>
+<target name="copy">
+<copy todir="C:\Tomcat7\webapps" overwrite="true">
+<fileset dir=".">
+<include name="*.war"/>
+</fileset>
+</copy>
+</target>
+<target name="deploy">
+<antcall target="create"/>
+<antcall target="copy"/>
+</target>
+</project>

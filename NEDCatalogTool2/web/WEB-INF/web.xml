@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <servlet>
+        <servlet-name>XmlContentServlet</servlet-name>
+        <servlet-class>org.ned.server.nedcatalogtool2.server.XmlContentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadStatServlet</servlet-name>
+        <servlet-class>org.ned.server.nedcatalogtool2.server.UploadStatServlet</servlet-class>
+        <init-param>
+            <description>Folder to store clients statistics</description>
+            <param-name>apacheNedStatsRoot</param-name>
+            <param-value>C:\nedstats\</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>org.ned.server.nedcatalogtool2.server.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <description>Message of the day update servlet</description>
+        <servlet-name>MotdUpdateServlet</servlet-name>
+        <servlet-class>org.ned.server.nedcatalogtool2.server.MotdServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>XmlContentServlet</servlet-name>
+        <url-pattern>/XmlContentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadStatServlet</servlet-name>
+        <url-pattern>/UploadStatServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MotdUpdateServlet</servlet-name>
+        <url-pattern>/MotdUpdateServlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>
+            Upload Stats
+            </web-resource-name>
+            <url-pattern>/UploadStatServlet</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>
+            Login
+            </web-resource-name>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <!-- Define the Login Configuration for this Application -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Ned</realm-name>
+    </login-config>
+</web-app>

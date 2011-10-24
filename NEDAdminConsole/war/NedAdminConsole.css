@@ -1,0 +1,183 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+	color: #777777;
+	margin: 40px 0px 70px;
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
+}
+html{margin:0;height:100%;} 
+body{ margin:0; padding:0; text-align:center; height: 100%; color: #16004f; font-family: "Verdana"}
+
+.NedMainPanel{width: 842px;	margin: 0px auto; height: auto;
+	padding: 0px;
+	text-align: left; }
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+.gwt-DecoratorPanel {
+	border-width:0;
+}
+
+.gwt-DecoratorPanel .topCenter,
+.gwt-DecoratorPanel .bottomCenter {
+  background: url(images/NedDP-leftRight.png) repeat-x;
+}
+
+.gwt-DecoratorPanel .middleLeft,
+.gwt-DecoratorPanel .middleRight {
+  background: url(images/NedDP-topBottom.png) repeat-y;
+}
+
+.gwt-DecoratorPanel .topLeftInner,
+.gwt-DecoratorPanel .topRightInner,
+.gwt-DecoratorPanel .bottomLeftInner,
+.gwt-DecoratorPanel .bottomRightInner {
+  width: 9px;
+  height: 9px;
+  zoom: 1;
+}
+
+.gwt-DecoratorPanel .topLeft {
+  background: url(images/NedDP-corner.png) no-repeat 0px 0px;
+}
+
+.gwt-DecoratorPanel .topRight {
+  background: url(images/NedDP-corner.png) no-repeat -9px 0px;
+}
+
+.gwt-DecoratorPanel .bottomLeft {
+  background: url(images/NedDP-corner.png) no-repeat 0px -9px;
+}
+
+.gwt-DecoratorPanel .bottomRight {
+  background: url(images/NedDP-corner.png) no-repeat -9px -9px;
+}
+
+html>body .gwt-DecoratorPanel {
+}
+
+.gwt-Ned-DecoratorPanel {
+    border-width: 0;
+}
+
+.gwt-MenuBar .gwt-MenuBar-horizontal {
+    margin: : auto;
+    }
+
+.gwt-MenuBar .gwt-MenuItem {
+	color: #26095C;
+	margin-left: 10px;
+	padding-right: 20px;
+	padding-left: 10p;
+	font-weight: bold;
+}
+
+.gwt-Label-red {
+    color:red;
+    }
+
+.gwt-TextArea {
+    resize:none;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+.gwt-Label-element {
+	color: #26095C;
+	font-family:Verdana;
+	font-size: 17px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.gwt-Tree .gwt-TreeItem-selected .NedTreeItemWidget {
+  background: #93c2f1 url(images/hborder.png) repeat-x 0px -1463px;
+     }
+     
+.treeScrollPanel {
+	border-top: 1px inset;
+	border-right: 1px ridge;
+	border-bottom: 1px ridge;
+	border-left: 1px inset;
+	background-color: white;
+}
+
+.NedItemEditorPanel {
+	border-top: 1px inset;
+	border-right: 1px ridge;
+	border-bottom: 1px ridge;
+	border-left: 1px inset;
+	background-color: white;
+	}
+.gwt-Label-message {
+}
+
+.NedUserManagementGrid {
+    border-width: 0px;
+    border-spacing: 0px;
+    border-style: ridge;
+    border-color: black;
+    border-collapse: collapse;
+}
+.NedUserManagementGrid th {
+       border-width: 0px;
+    border-spacing: 0px;
+    border-style: ridge;
+    border-color: black;
+    border-collapse: collapse;
+}
+.NedUserManagementGrid td {
+       border-width: 0px;
+    border-spacing: 0px;
+    border-style: ridge;
+    border-color: black;
+    border-collapse: collapse;
+}
+
+
+.main-page-background {
+    padding-top: 0px;
+    background-repeat: repeat-y;
+    background-image: url(images/NED_bg_gradient2alt.png);
+}
+.Ned-Image {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	display: block;
+}
+.gwt-DecoratorPanel-gradient {
+	border: 0px;
+	height: 100%;
+	background-repeat: repeat-y;
+	background-image: url(images/NED_bg_gradient2alt.png);
+	
+}
+
+	
+.NedDeleteButton {
+	}
+
+
+

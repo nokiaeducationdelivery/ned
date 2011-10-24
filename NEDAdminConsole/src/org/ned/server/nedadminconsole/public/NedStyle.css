@@ -1,0 +1,83 @@
+.gwt-MenuBar-horizontal .gwt-MenuItem {
+    color: #26095C;
+    padding: 0px 10px;
+    font-weight: bold;
+    vertical-align: bottom;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background: #cdcdcd;
+}
+
+.gwt-TabPanelBottom {
+  border-color: #bcbcbc;
+  border-style: solid;
+  border-width: 0px 0px 0px;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.gwt-TabBar {
+  padding-top: 0px;
+  padding-bottom: 8px;
+  background-repeat: repeat-x;
+  background-image:url(../images/belka.png);
+  height: 25px;
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+  margin-left: 6px;
+  padding: 0px 6px 0px 6px;
+  cursor: pointer;
+  cursor: hand;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+
+  border-top: 0px ridge   ;
+  border-right: 0px inset;
+  border-left: 0px ridge;
+  background-color:transparent;
+  font-family: Verdana;
+  height: 100%;
+  line-height: 25px;
+}
+.gwt-TabBar .gwt-TabBarItem-selected {
+  cursor: default;
+  color: #238200;
+  border-top: 0px solid;
+  border-right: 0px solid;
+  border-left: 0px solid;
+  border-color: transparent;
+  background-image:url(../images/belka_selected.png);
+}
+
+
+.NedDeleteButton{
+}
+
+.gwt-TextArea-readonly {
+  color: #000;
+  background-color: #EBEBE4;
+}
+
+.gwt-TextBox-readonly {
+  color: #000;
+    background-color: #EBEBE4;
+}
+
+.NedUserManagementLabels {
+    text-align: center;
+    color: #26095C;
+    font-family:Verdana;
+    font-weight: bold;
+    font-size: 17px;
+    }
+    
+.gwt-Label-Ned
+{
+    color: #26095C;
+    font-family:Verdana;
+    font-weight: bold;
+    font-size: 17px;
+}

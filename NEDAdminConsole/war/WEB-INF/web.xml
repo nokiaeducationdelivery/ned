@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+   
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>NedCatalogServlet</servlet-name>
+		<servlet-class>org.ned.server.nedadminconsole.server.NedCatalogServiceImpl</servlet-class>
+	</servlet>
+	
+	   <servlet>
+        <servlet-name>NedStatisticsFileServlet</servlet-name>
+        <servlet-class>org.ned.server.nedadminconsole.server.NedStatisticsFileServlet</servlet-class>
+    </servlet>
+
+	<servlet>
+		<servlet-name>NedFileUploadServlet</servlet-name>
+		<servlet-class>org.ned.server.nedadminconsole.server.NedFileUploadServlet</servlet-class>
+		<init-param>
+			<param-name>apacheNedVideoRoot</param-name>
+			<param-value>./../webapps/ROOT/</param-value>
+			<description>Apache Server Video Root</description>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>NedCatalogServlet</servlet-name>
+		<url-pattern>/NedCatalogServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>NedFileUploadServlet</servlet-name>
+		<url-pattern>/NedFileUploadServlet</url-pattern>
+	</servlet-mapping>
+	
+	   <servlet-mapping>
+        <servlet-name>NedStatisticsFileServlet</servlet-name>
+        <url-pattern>/NedStatisticsFileServlet</url-pattern>
+    </servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>NedAdminConsole.html</welcome-file>
+	</welcome-file-list>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Ned</realm-name>
+	</login-config>
+
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
+	<security-role>
+		<role-name>user</role-name>
+	</security-role>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>
+				Admin Console
+            </web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+</web-app>
