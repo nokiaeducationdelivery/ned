@@ -1,3 +1,13 @@
+/*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************/
 package org.ned.server.nedcatalogtool2.server;
 
 import org.ned.server.nedcatalogtool2.statistics.StatisticsReader;
@@ -16,9 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ned.server.nedcatalogtool2.datasource.PostgresConnection;
 
-/**
- *
- */
+
 public class UploadStatServlet extends HttpServlet {
 
     private static final int STATSUPDATED = 0;
@@ -28,7 +36,7 @@ public class UploadStatServlet extends HttpServlet {
     private static final int UNKNOWN = -9999;
     private boolean serverOnWindows;
 
-    /** 
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
@@ -45,7 +53,7 @@ public class UploadStatServlet extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -58,7 +66,7 @@ public class UploadStatServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -100,7 +108,7 @@ public class UploadStatServlet extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
      * @return a String containing servlet description
      */

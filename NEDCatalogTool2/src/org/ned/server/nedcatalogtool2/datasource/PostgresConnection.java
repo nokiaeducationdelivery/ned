@@ -1,3 +1,13 @@
+/*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************/
 package org.ned.server.nedcatalogtool2.datasource;
 
 import java.sql.SQLException;
@@ -22,7 +32,7 @@ public class PostgresConnection {
     final String selectMotd = "SELECT message FROM motd WHERE  motd_id=1;";
 
     private Connection sqlConnection = null;
-    
+
     private void connect() throws NamingException, SQLException  {
         if(sqlConnection == null){
             InitialContext cxt = new InitialContext();
@@ -104,7 +114,7 @@ public class PostgresConnection {
             Logger.getLogger(PostgresConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public String getMotd() throws Exception{
         ResultSet result = null;
         result = GetSqlResults(selectMotd);

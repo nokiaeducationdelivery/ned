@@ -1,3 +1,13 @@
+/*******************************************************************************
+* Copyright (c) 2011 Nokia Corporation
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Comarch team - initial API and implementation
+*******************************************************************************/
 package org.ned.server.nedcatalogtool2.server;
 
 import java.io.IOException;
@@ -100,7 +110,7 @@ public class XmlContentServlet extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -112,7 +122,7 @@ public class XmlContentServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -125,7 +135,7 @@ public class XmlContentServlet extends HttpServlet {
         //processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
      * @return a String containing servlet description
      */
