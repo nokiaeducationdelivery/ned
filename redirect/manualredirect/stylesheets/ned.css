@@ -1,0 +1,31 @@
+#main {
+    width:100%;
+    height: 100%;
+    background-image: url("/images/nedBackground.png");
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-position:center; 
+}
+
+#left {
+    width: 50%;
+    float: left;
+    text-align: right;
+    position:absolute; 
+    top:50%; 
+    height:10em; 
+    margin-top:-10em;
+    margin-left: -10em;
+    display:inline-block;
+}
+#right {
+    width: 50%;
+    float: right;
+    text-align: left;
+    position:relative; 
+    display:inline-block;
+    top:50%;
+    height:10em; 
+    margin-top:-10em;
+    margin-right: -10em;
+}
