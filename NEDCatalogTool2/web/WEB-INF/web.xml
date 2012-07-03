@@ -22,6 +22,11 @@
         <servlet-name>MotdUpdateServlet</servlet-name>
         <servlet-class>org.ned.server.nedcatalogtool2.server.MotdServlet</servlet-class>
     </servlet>
+    <servlet>
+        <description>List and download localization files</description>
+        <servlet-name>Localizations</servlet-name>
+        <servlet-class>org.ned.server.nedcatalogtool2.server.LanguageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>XmlContentServlet</servlet-name>
         <url-pattern>/XmlContentServlet</url-pattern>
@@ -37,6 +42,10 @@
     <servlet-mapping>
         <servlet-name>MotdUpdateServlet</servlet-name>
         <url-pattern>/MotdUpdateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Localizations</servlet-name>
+        <url-pattern>/Localizations</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

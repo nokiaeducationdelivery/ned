@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.ned.server.nedcatalogtool2.datasource;
 
 public class StringRepository {
+
     public static final String TAG_NODE = "NED_NODE";
     public static final String TAG_TITLE = "TITLE";
     public static final String TAG_DESCRIPTION = "DESCRIPTION";
@@ -19,9 +20,15 @@ public class StringRepository {
     public static final String TAG_TEXT = "TEXT";
     public static final String TAG_FILE = "FILEEX";
     public static final String TAG_CHILDS = "CHILDS";
-    public static final String  ATTRIBUTE_TYPE = "type";
+    public static final String ATTRIBUTE_TYPE = "type";
     public static final String ATTRIBUTE_ID = "id";
     public static final String ATTRIBUTE_PARENT = "parentid";
     public static final String HEADER_NONRECURSIVE = "nonrecursive";
     public static final String ATTRIBUTE_DATA = "data";
+    public static final String TAG_LANGUAGES = "languages";
+    public static final String TAG_LANGUAGE = "language";
+    public static final String TAG_ID = "id";
+    public static final String TAG_NAME = "name";
+    public static final String TAG_FILENAME = "file";
+    public static final String TAG_LOCALE = "locale";
 }
