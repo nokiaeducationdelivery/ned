@@ -57,6 +57,7 @@ public interface NedResource extends Constants{
     String newElemDlgRandomize();
     String newElemDlgCheck();
     String newElemDlgIdIsEmpty();
+    String newElemDlgIdIllegal();
     
     String uploadDlgUploadFile();
     String uploadDlgUpload();

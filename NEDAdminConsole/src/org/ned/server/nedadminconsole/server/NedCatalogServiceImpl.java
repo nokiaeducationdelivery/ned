@@ -25,8 +25,8 @@ public class NedCatalogServiceImpl extends RemoteServiceServlet implements
         NedCatalogService {
 
     /**
-	 * 
-	 */
+     * 
+     */
     private static final long serialVersionUID = -2441261396189223536L;
 
     @Override
@@ -104,7 +104,7 @@ public class NedCatalogServiceImpl extends RemoteServiceServlet implements
             retval = true;
         } catch (Exception ex) {
             Logger.getLogger(NedCatalogServiceImpl.class.getName()).log(
-                    Level.SEVERE, ex.getMessage(), ex);
+                    Level.SEVERE, ex.getMessage());
         } finally {
             connection.disconnect();
         }

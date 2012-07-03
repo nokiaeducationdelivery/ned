@@ -106,7 +106,7 @@ public class NedLibrarySelectorWidget extends Composite implements
         this.libraries = libraries;
         listBox.clear();
         for (int i = 0; i < libraries.size(); i++) {
-            listBox.addItem(libraries.get(i).name);
+            listBox.addItem(libraries.get(i).name, libraries.get(i).id);
         }
         buttonNewLibrary.setEnabled(true);
         buttonSelectLibrary.setEnabled(true);
@@ -173,18 +173,24 @@ public class NedLibrarySelectorWidget extends Composite implements
     @Override
     public void addNewLibrary(NedObject library) {
         libraries.add(library);
-        listBox.addItem(library.name);
+        listBox.addItem(library.name, library.id);
     }
     
     public void removeLibrary(NedObject library)
     {
         for(int i = 0; i < listBox.getItemCount(); i++)
         {
-            if(listBox.getItemText(i).equals(library.name))
+            if(listBox.getValue(i).equals(library.id))
             {
                 listBox.removeItem(i);
+                libraries.remove(i);
+                if(listBox.getSelectedIndex() > -1)
+                {
+                    listBox.setItemSelected( listBox.getSelectedIndex(), false);
+                }
                 return;
             }
         }
+
     }
 }

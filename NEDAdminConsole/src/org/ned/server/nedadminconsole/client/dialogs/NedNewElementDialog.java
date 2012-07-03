@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-* Comarch team - initial API and implementation
-*******************************************************************************/
+ * Copyright (c) 2011 Nokia Corporation
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Comarch team - initial API and implementation
+ *******************************************************************************/
 package org.ned.server.nedadminconsole.client.dialogs;
 
 import org.ned.server.nedadminconsole.client.NedCatalogService;
@@ -36,22 +36,24 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 
 public class NedNewElementDialog extends DialogBox {
 
-	private String type;
-	private String  parentId;
-	private TextBox textBoxId;
-	private TextBox textBoxName;
-	private TreeItem parentTreeItem;
-	private Label labelIdResult;
-	
-	   public NedNewElementDialog(String type, String parentId, TreeItem parentTreeItem) {
-	        this(type, parentId, parentTreeItem, (NedLibraryListUpdater) null);
-	    }
+    private String type;
+    private String parentId;
+    private TextBox textBoxId;
+    private TextBox textBoxName;
+    private TreeItem parentTreeItem;
+    private Label labelIdResult;
+    private final String idRegExp = "^[[a-z][A-Z][0-9]]*$";
 
-       /**
-        * @wbp.parser.constructor
-        */
-	public NedNewElementDialog(String type, String parentId, TreeItem parentTreeItem, NedLibraryListUpdater libraryUpdater)
-    {
+    public NedNewElementDialog(String type, String parentId,
+            TreeItem parentTreeItem) {
+        this(type, parentId, parentTreeItem, (NedLibraryListUpdater) null);
+    }
+
+    /**
+     * @wbp.parser.constructor
+     */
+    public NedNewElementDialog(String type, String parentId,
+            TreeItem parentTreeItem, NedLibraryListUpdater libraryUpdater) {
         this.type = type;
         this.parentId = parentId;
         this.parentTreeItem = parentTreeItem;
@@ -59,7 +61,8 @@ public class NedNewElementDialog extends DialogBox {
 
         VerticalPanel verticalPanel = new VerticalPanel();
         verticalPanel.setSpacing(8);
-        verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        verticalPanel
+                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         setWidget(verticalPanel);
         verticalPanel.setSize("335px", "100%");
 
@@ -82,7 +85,7 @@ public class NedNewElementDialog extends DialogBox {
         buttonRandomize.addClickHandler(new ClickHandlerRandomize());
         grid.setWidget(0, 2, buttonRandomize);
         buttonRandomize.setWidth("100%");
-        grid.getCellFormatter().setWidth(0, 2, "30%");
+        grid.getCellFormatter().setWidth(0, 2, "40%");
         buttonRandomize.setText(NedRes.instance().newElemDlgRandomize());
 
         Button buttonCheck = new Button("New button");
@@ -99,7 +102,7 @@ public class NedNewElementDialog extends DialogBox {
         grid.getCellFormatter().setWidth(1, 2, "25%");
         grid.getCellFormatter().setWidth(2, 1, "");
 
-        Label lblName = new Label(NedRes.instance().name()+ ":");
+        Label lblName = new Label(NedRes.instance().name() + ":");
         grid.setWidget(2, 0, lblName);
         grid.getCellFormatter().setWidth(2, 0, "");
         lblName.setWidth("");
@@ -108,14 +111,21 @@ public class NedNewElementDialog extends DialogBox {
         textBoxName.setMaxLength(20);
         grid.setWidget(2, 1, textBoxName);
         textBoxName.setWidth("96%");
-        
-        grid.getCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_BOTTOM);
-        grid.getCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_BOTTOM);
-        grid.getCellFormatter().setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_LEFT);
-        grid.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
-        grid.getCellFormatter().setVerticalAlignment(1, 2, HasVerticalAlignment.ALIGN_MIDDLE);
-        grid.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
-        grid.getCellFormatter().setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_LEFT);
+
+        grid.getCellFormatter().setVerticalAlignment(0, 1,
+                HasVerticalAlignment.ALIGN_BOTTOM);
+        grid.getCellFormatter().setVerticalAlignment(0, 2,
+                HasVerticalAlignment.ALIGN_BOTTOM);
+        grid.getCellFormatter().setHorizontalAlignment(0, 2,
+                HasHorizontalAlignment.ALIGN_LEFT);
+        grid.getCellFormatter().setVerticalAlignment(1, 1,
+                HasVerticalAlignment.ALIGN_TOP);
+        grid.getCellFormatter().setVerticalAlignment(1, 2,
+                HasVerticalAlignment.ALIGN_MIDDLE);
+        grid.getCellFormatter().setHorizontalAlignment(0, 0,
+                HasHorizontalAlignment.ALIGN_LEFT);
+        grid.getCellFormatter().setHorizontalAlignment(2, 0,
+                HasHorizontalAlignment.ALIGN_LEFT);
 
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         verticalPanel.add(horizontalPanel);
@@ -140,77 +150,81 @@ public class NedNewElementDialog extends DialogBox {
         textBoxName.setFocus(true);
     }
 
+    private class ClickHandlerCancel implements ClickHandler {
+        @Override
+        public void onClick(ClickEvent event) {
+            NedNewElementDialog.this.hide();
+        }
 
-	private class ClickHandlerCancel implements ClickHandler {
-		@Override
-		public void onClick(ClickEvent event) {
-			NedNewElementDialog.this.hide();
-		}
+    }
 
-	}
-
-	private class ClickHandlerOk implements ClickHandler {
-	    private NedLibraryListUpdater libraryUpdater;
-		public ClickHandlerOk(NedLibraryListUpdater libraryUpdater) {
+    private class ClickHandlerOk implements ClickHandler {
+        private NedLibraryListUpdater libraryUpdater;
+        public ClickHandlerOk(NedLibraryListUpdater libraryUpdater) {
             this.libraryUpdater = libraryUpdater;
         }
 
         @Override
-		public void onClick(ClickEvent event) {
+        public void onClick(ClickEvent event) {
             String itemName = textBoxName.getText();
-            if(itemName != null && !itemName.trim().isEmpty() )
-            {
-			NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
-					.create(NedCatalogService.class);
-			ServiceDefTarget serviceDef = (ServiceDefTarget) service;
-			serviceDef.setServiceEntryPoint("NedCatalogServlet");
-			if(type.equals("Media Item"))
-			{
-				type = "Undefined";
-			} else if(type.equals("Library"))
-			{
-				parentId = null;
-			}
-			String id = textBoxId.getText();
-			if(id == null || id.trim().trim().isEmpty())
-			{
-			    id = new NedStringGenerator().nextString();
-			    textBoxId.setText(id);
-			}
-			NedObject newObject = new NedObject(id, parentId, itemName.trim(), type, null, null, null, null);
-			NedAddNewElementCallback serviceCallback = new NedAddNewElementCallback(NedNewElementDialog.this, newObject, parentTreeItem, libraryUpdater);
-			service.addNewItem(newObject, serviceCallback);
+            if (itemName != null && !itemName.trim().isEmpty()) {
+                NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
+                        .create(NedCatalogService.class);
+                ServiceDefTarget serviceDef = (ServiceDefTarget) service;
+                serviceDef.setServiceEntryPoint("NedCatalogServlet");
+                if (type.equals("Media Item")) {
+                    type = "Undefined";
+                } else if (type.equals("Library")) {
+                    parentId = null;
+                }
+                String id = textBoxId.getText();
+                if (id == null || id.trim().trim().isEmpty()) {
+                    id = new NedStringGenerator().nextString();
+                    textBoxId.setText(id);
+                }
+                NedObject newObject = new NedObject(id, parentId,
+                        itemName.trim(), type, null, null, null, null);
+                NedAddNewElementCallback serviceCallback = new NedAddNewElementCallback(
+                        NedNewElementDialog.this, newObject, parentTreeItem,
+                        libraryUpdater);
+                service.addNewItem(newObject, serviceCallback);
             } else {
                 NedAlert.showAlert(NedRes.instance().msgErrorEmptyName());
             }
-		}
-	}
+        }
+    }
 
-	private class ClickHandlerRandomize implements ClickHandler {
-		@Override
-		public void onClick(ClickEvent event) {
-			textBoxId.setText(new NedStringGenerator().nextString());
-		}
-	}
+    private class ClickHandlerRandomize implements ClickHandler {
+        @Override
+        public void onClick(ClickEvent event) {
+            textBoxId.setText(new NedStringGenerator().nextString());
+        }
+    }
 
-	private class ClickHandlerCheck implements ClickHandler {
+    private class ClickHandlerCheck implements ClickHandler {
 
-		@Override
-		public void onClick(ClickEvent event) {
-			if (!textBoxId.getText().isEmpty()) {
-				labelIdResult.setText("");
-				NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
-						.create(NedCatalogService.class);
-				ServiceDefTarget serviceDef = (ServiceDefTarget) service;
-				serviceDef.setServiceEntryPoint("NedCatalogServlet");
-				NedCheckIdCallback serviceCallback = new NedCheckIdCallback(
-						labelIdResult);
-				service.checkIdAvailable(textBoxId.getText(), serviceCallback);
-			} else {
-				labelIdResult.setText(NedRes.instance().newElemDlgIdIsEmpty());
-			}
-		}
+        @Override
+        public void onClick(ClickEvent event) {
+            if (!textBoxId.getText().isEmpty()) {
+                labelIdResult.setText("");
+                if (!textBoxId.getText().matches(idRegExp)) {
+                    labelIdResult.setText(NedRes.instance()
+                            .newElemDlgIdIllegal());
+                } else {
+                    NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
+                            .create(NedCatalogService.class);
+                    ServiceDefTarget serviceDef = (ServiceDefTarget) service;
+                    serviceDef.setServiceEntryPoint("NedCatalogServlet");
+                    NedCheckIdCallback serviceCallback = new NedCheckIdCallback(
+                            labelIdResult);
+                    service.checkIdAvailable(textBoxId.getText(),
+                            serviceCallback);
+                }
+            } else {
+                labelIdResult.setText(NedRes.instance().newElemDlgIdIsEmpty());
+            }
+        }
 
-	}
+    }
 
 }

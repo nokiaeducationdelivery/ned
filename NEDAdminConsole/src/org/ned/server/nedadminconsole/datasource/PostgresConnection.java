@@ -17,7 +17,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -196,20 +195,12 @@ public class PostgresConnection {
         }
     }
 
-    private String createSqlArrayString(String[] array) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{");
-        for (int i = 0; i < array.length; i++) {
-            builder.append(array[i]);
-            if (i < array.length - 1) {
-                builder.append(",");
-            }
-        }
-        builder.append("}");
-        return builder.toString();
-    }
-
     public void saveNewItem(NedObject element) throws Exception {
+         if (!element.id.matches(dbRegExp))
+         {
+             throw new Exception("Bad input id");
+         }
+
         connect();
 
         String sqlQuery = element.parentId == null ? insertNewLibrary
