@@ -76,7 +76,6 @@ public class NedCatalogServiceImpl extends RemoteServiceServlet implements
         } catch (Exception ex) {
             Logger.getLogger(NedCatalogServiceImpl.class.getName()).log(
                     Level.SEVERE, ex.getMessage(), ex);
-            retval = false;
         } finally {
             connection.disconnect();
         }

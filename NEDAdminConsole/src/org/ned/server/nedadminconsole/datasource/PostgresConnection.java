@@ -12,10 +12,13 @@ package org.ned.server.nedadminconsole.datasource;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Array;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,27 +34,26 @@ import org.ned.server.nedadminconsole.shared.NedUser;
 public class PostgresConnection {
 
     final String queryAll = "WITH RECURSIVE tree AS ( SELECT * FROM containers WHERE %1$s UNION ALL SELECT d.* FROM  containers AS d JOIN tree AS sd ON (d.parentid = sd.elementid)) SELECT * FROM tree ORDER BY id;";
-    final String querySingle = "SELECT * FROM containers WHERE elementid = '%1$s' ;";
+    final String querySingle = "SELECT * FROM containers WHERE elementid = ? ;";
     final String dbRegExp = "^[[a-z][A-Z][0-9]]*$";
-    final String insertStat = "INSERT INTO statistics( username, contentid, type, data) VALUES ('%1$s', '%2$s', '%3$s', '%4$s');";
-    final String insertNewItem = "INSERT INTO containers ( elementid, parentid, type, name) VALUES ('%1$s', '%2$s', '%3$s', '%4$s');";
-    final String insertNewLibrary = "INSERT INTO containers ( elementid, type, name) VALUES ('%1$s', '%2$s', '%3$s');";
+    final String insertNewItem = "INSERT INTO containers ( elementid,type, name,  parentid) VALUES (?,?,?,?);";
+    final String insertNewLibrary = "INSERT INTO containers ( elementid, type, name) VALUES (?,?,?);";
     final String queryLibraries = "SELECT * FROM containers WHERE parentid is NULL ;";
     
-    final String updateItem = "UPDATE containers SET %1$s WHERE elementid = '%2$s'";
-    final String deleteItem = "DELETE FROM containers WHERE elementid = '%1$s'";
-    final String updateMedia = "UPDATE containers SET data='%1$s', type='%2$s' WHERE elementid='%3$s';";
-    final String selectMediaType = "SELECT type FROM extensions WHERE extension='%1$s'";
+    final String updateItem = "UPDATE containers SET %1$s WHERE elementid = ?";
+    final String deleteItem = "DELETE FROM containers WHERE elementid = ?";
+    final String updateMedia = "UPDATE containers SET data=?, type=? WHERE elementid=?;";
+    final String selectMediaType = "SELECT type FROM extensions WHERE extension=?";
     
     final String getUserList = "SELECT name, password FROM users WHERE name IN (SELECT name FROM userroles WHERE role = 'user');";
-    final String deleteUser = "DELETE FROM users WHERE name = '%1$s';";
-    final String addUser = "INSERT INTO users (name, password) VALUES ('%1$s', '%2$s');";
-    final String updateUserPassword = "UPDATE users SET password = '%1$s' WHERE name = '%2$s';";
+    final String deleteUser = "DELETE FROM users WHERE name = ?;";
+    final String addUser = "INSERT INTO users (name, password) VALUES (?, ?);";
+    final String updateUserPassword = "UPDATE users SET password = ? WHERE name = ?;";
 
 
     final String selectMotd = "SELECT message FROM motd WHERE  motd_id=1;";
-    final String updateMotd = "UPDATE motd SET  message='%1$s' WHERE motd_id=1;";
-    final String insertMotd = "INSERT INTO motd(motd_id, message) VALUES (1, '%1$s')";
+    final String updateMotd = "UPDATE motd SET  message=? WHERE motd_id=1;";
+    final String insertMotd = "INSERT INTO motd(motd_id, message) VALUES (1, ?)";
 
     final String getStatistics = "SELECT * FROM statistics";
     
@@ -80,14 +82,18 @@ public class PostgresConnection {
         }
     }
 
-    private ResultSet getSqlResults(String request) throws SQLException {
+    private ResultSet getSqlResults(String request, String... parameters) throws SQLException {
         ResultSet retval = null;
         try {
             connect();
             if (sqlConnection != null) {
-                Statement sqlStatement;
-                sqlStatement = sqlConnection.createStatement();
-                retval = sqlStatement.executeQuery(request);
+                PreparedStatement sqlStatement;
+                sqlStatement = sqlConnection.prepareStatement(request);
+                for(int i = 1; i <= parameters.length; i++)
+                {
+                    sqlStatement.setString(i, parameters[i-1]);
+                }
+                retval = sqlStatement.executeQuery();
             }
         } catch (NamingException ex) {
             Logger.getLogger(PostgresConnection.class.getName()).log(
@@ -106,12 +112,11 @@ public class PostgresConnection {
     }
 
     public List<NedObject> GetFullNode(String id) throws Exception {
-        String sqlCompare = (id == null) ? "parentid is NULL" : "elementid = '"
-                + id + "'";
+        String sqlCompare = (id == null) ? "parentid is NULL" : "elementid = ?";
         ResultSet results = null;
 
         if (id.matches(dbRegExp)) {
-            results = getSqlResults(String.format(queryAll, sqlCompare));
+            results = getSqlResults(String.format(queryAll, sqlCompare), id);
         } else {
             throw new Exception("Bad input id");
         }
@@ -122,7 +127,7 @@ public class PostgresConnection {
     public NedObject getSingleElement(String id) throws Exception {
         ResultSet results = null;
         if (id.matches(dbRegExp)) {
-            results = getSqlResults(String.format(querySingle, id));
+            results = getSqlResults(querySingle, id);
             if (!results.next()) {
                 throw new Exception("No results");
             }
@@ -133,46 +138,59 @@ public class PostgresConnection {
     }
 
     public void updateItem(NedObject item) throws Exception {
-        String updateSqlData = "";
+        StringBuilder updateSqlData = new StringBuilder();
+        List<Object> queryParameters = new ArrayList<Object>();
         boolean firstParam = true;
         NedObject current = getSingleElement(item.id);
         if (!current.name.equals(item.name)) {
-            updateSqlData += " name = '" + item.name + "'";
+            updateSqlData.append("name = ?");
+            queryParameters.add(item.name);
             firstParam = false;
         }
         if (item.description != null
                 && !item.description.equals(current.description)) {
             if (!firstParam) {
-                updateSqlData += " , ";
+                updateSqlData.append(" , ");
             }
-            updateSqlData += "description = '" + item.description + "'";
+            updateSqlData.append("description = ?");
+            queryParameters.add(item.description);
             firstParam = false;
         }
         if (item.keywords != null
                 && !java.util.Arrays.equals(current.keywords, item.keywords)) {
             if (!firstParam) {
-                updateSqlData += " , ";
+                updateSqlData.append(" , ");
             }
-            updateSqlData += "keywords = '"
-                    + createSqlArrayString(item.keywords) + "'";
+            updateSqlData.append("keywords = ?");
+            queryParameters.add(item.keywords);
             firstParam = false;
         }
         if (item.externalLinks != null
                 && !java.util.Arrays.equals(current.externalLinks,
                         item.externalLinks)) {
             if (!firstParam) {
-                updateSqlData += " , ";
+                updateSqlData.append(" , ");
             }
-            updateSqlData += "links = '"
-                    + createSqlArrayString(item.externalLinks) + "'";
+            updateSqlData.append("links = ?");
+            queryParameters.add( item.externalLinks);
             firstParam = false;
         }
         connect();
-        if (sqlConnection != null && !updateSqlData.isEmpty()) {
-            Statement sqlStatement;
-            sqlStatement = sqlConnection.createStatement();
-            sqlStatement.executeUpdate(String.format(updateItem, updateSqlData,
-                    item.id));
+        if (updateSqlData.length() > 0) {
+            PreparedStatement sqlStatement = sqlConnection.prepareStatement(String.format(updateItem, updateSqlData.toString()));
+            int count = 0;
+            for (count =0; count < queryParameters.size(); count++) {
+                if(queryParameters.get(count) instanceof String )
+                {
+                    sqlStatement.setString(count+1, (String) queryParameters.get(count));
+                } else if(queryParameters.get(count) instanceof String[])
+                {
+                   Array sqlArray = sqlConnection.createArrayOf("varchar", (Object[]) queryParameters.get(count));
+                    sqlStatement.setArray(count+1, sqlArray);
+                }
+            }
+            sqlStatement.setString(count+1, item.id);
+            sqlStatement.executeUpdate();
         } else {
             throw new Exception("no changes");
         }
@@ -193,42 +211,46 @@ public class PostgresConnection {
 
     public void saveNewItem(NedObject element) throws Exception {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        String sqlQuery = element.parentId == null ? String.format(
-                insertNewLibrary, element.id, element.type, element.name)
-                : String.format(insertNewItem, element.id, element.parentId,
-                        element.type, element.name);
-        sqlStatement.executeUpdate(sqlQuery);
+
+        String sqlQuery = element.parentId == null ? insertNewLibrary
+                                                     :insertNewItem;
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, element.id);
+        sqlStatement.setString(2, element.type);
+        sqlStatement.setString(3, element.name);
+        if(element.parentId != null)
+        {
+            sqlStatement.setString(4, element.parentId);
+        }
+        sqlStatement.executeUpdate();
     }
 
     public void deleteItem(String itemId) throws Exception {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        String sqlQuery = String.format(deleteItem, itemId);
-        sqlStatement.executeUpdate(sqlQuery);
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(deleteItem);
+        sqlStatement.setString(1, itemId);
+        sqlStatement.executeUpdate();
     }
 
     public void updateContentData(String mediaFile, String type,
             String contentId) throws Exception {
         connect();
-        String query = String.format(updateMedia, mediaFile, type,
-                contentId);
-        Statement sqlStatement = sqlConnection.createStatement();
-        sqlStatement.executeUpdate(query);
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(updateMedia);
+        sqlStatement.setString(1, mediaFile);
+        sqlStatement.setString(2, type);
+        sqlStatement.setString(3, contentId);
+        sqlStatement.executeUpdate();
     }
 
     public String getMediaType(String extension) throws Exception {
         ResultSet result = null;
-        connect();
-        String query = String.format(selectMediaType, extension.toLowerCase());
-        result = getSqlResults(query);
+        result = getSqlResults(selectMediaType, extension.toLowerCase());
         result.next();
         return result.getString("type");
     }
 
     public String getMotd() throws Exception {
         ResultSet result = null;
-        connect();
         result = getSqlResults(selectMotd);
         result.next();
         return result.getString("message");
@@ -236,24 +258,30 @@ public class PostgresConnection {
 
     public void updateMotd(String message) throws Exception {
         connect();
-        String query = String.format(updateMotd, message);
-        Statement sqlStatement = sqlConnection.createStatement();
-        sqlStatement.executeUpdate(query);
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(updateMotd);
+        try
+        {
+        sqlStatement.setString(1, message);
+        sqlStatement.executeUpdate();
+        }
+        catch(SQLException ex)
+        {
+            Logger.getAnonymousLogger().info(ex.getMessage());
+        }
     }
 
     public void insertMotd(String message) throws Exception {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        String sqlQuery = String.format(insertMotd, message);
-
-        sqlStatement.executeUpdate(sqlQuery);
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(insertMotd);
+        sqlStatement.setString(1, message);
+        sqlStatement.executeUpdate();
     }
 
     public List<NedUser> getUserList() throws Exception {
         List<NedUser> retval = new LinkedList<NedUser>();
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        ResultSet results = sqlStatement.executeQuery(getUserList);
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(getUserList);
+        ResultSet results = sqlStatement.executeQuery();
 
         while (results.next()) {
             NedUser user = new NedUser(results.getString(1),
@@ -266,28 +294,34 @@ public class PostgresConnection {
     public void addUser(NedUser user) throws Exception
     {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        sqlStatement.executeUpdate(String.format(addUser, user.username, user.password));
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(addUser);
+        sqlStatement.setString(1, user.username);
+        sqlStatement.setString(2, user.password);
+
+        sqlStatement.executeUpdate();
     }
     
     public void deleteUser(NedUser user) throws Exception
     {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        sqlStatement.executeUpdate(String.format(deleteUser, user.username));
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(deleteUser);
+        sqlStatement.setString(1, user.username);
+        sqlStatement.executeUpdate();
     }
     
     public void updateUserPassword(NedUser user) throws Exception
     {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        sqlStatement.executeUpdate(String.format(updateUserPassword, user.password, user.username));
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(updateUserPassword);
+        sqlStatement.setString(1, user.password);
+        sqlStatement.setString(2, user.username);
+        sqlStatement.executeUpdate();
     }
 
     public void getFullStatistics(PrintWriter writer) throws NamingException, SQLException, IOException {
         connect();
-        Statement sqlStatement = sqlConnection.createStatement();
-        ResultSet results = sqlStatement.executeQuery(getStatistics);
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(getStatistics);
+        ResultSet results = sqlStatement.executeQuery();
 
         CSVWriter csvWriter = new CSVWriter(writer);
         
