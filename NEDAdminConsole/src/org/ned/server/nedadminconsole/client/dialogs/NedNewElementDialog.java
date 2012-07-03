@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Nokia Corporation
+ * Copyright (c) 2011-2012 Nokia Corporation
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@ package org.ned.server.nedadminconsole.client.dialogs;
 
 import org.ned.server.nedadminconsole.client.NedCatalogService;
 import org.ned.server.nedadminconsole.client.NedCatalogServiceAsync;
+import org.ned.server.nedadminconsole.client.NedConstant;
 import org.ned.server.nedadminconsole.client.NedRes;
 import org.ned.server.nedadminconsole.client.NedStringGenerator;
 import org.ned.server.nedadminconsole.client.callbacks.NedAddNewElementCallback;
@@ -128,6 +129,19 @@ public class NedNewElementDialog extends DialogBox {
         grid.getCellFormatter().setHorizontalAlignment(2, 0,
                 HasHorizontalAlignment.ALIGN_LEFT);
 
+        if (type != NedConstant.TYPE_LIBRARY) {
+            buttonCheck.setVisible(false);
+            buttonRandomize.setVisible(false);
+            lblId.setVisible(false);
+            textBoxId.setVisible(false);
+            labelIdResult.setVisible(false);
+            grid.getRowFormatter().setVisible(0, false);
+            grid.getRowFormatter().setVisible(1, false);
+            grid.remove(textBoxName);
+            grid.setWidget(2, 2, textBoxName);
+            textBoxName.setWidth("98%");
+        }
+
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         verticalPanel.add(horizontalPanel);
         verticalPanel.setCellWidth(horizontalPanel, "100%");
@@ -161,6 +175,7 @@ public class NedNewElementDialog extends DialogBox {
 
     private class ClickHandlerOk implements ClickHandler {
         private NedLibraryListUpdater libraryUpdater;
+
         public ClickHandlerOk(NedLibraryListUpdater libraryUpdater) {
             this.libraryUpdater = libraryUpdater;
         }
@@ -209,7 +224,7 @@ public class NedNewElementDialog extends DialogBox {
             if (!textBoxId.getText().isEmpty()) {
                 labelIdResult.setText("");
                 RegExp pattern = RegExp.compile(idRegExp);
-                if ( !pattern.test(textBoxId.getText() ) ) {
+                if (!pattern.test(textBoxId.getText())) {
                     labelIdResult.setText(NedRes.instance()
                             .newElemDlgIdIllegal());
                 } else {
