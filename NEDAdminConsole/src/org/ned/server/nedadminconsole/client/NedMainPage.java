@@ -13,6 +13,7 @@ package org.ned.server.nedadminconsole.client;
 import org.ned.server.nedadminconsole.client.dialogs.NedAlert;
 import org.ned.server.nedadminconsole.client.interfaces.NedModelListener;
 import org.ned.server.nedadminconsole.client.widgets.NedItemEditor;
+import org.ned.server.nedadminconsole.client.widgets.NedLanguageWidget;
 import org.ned.server.nedadminconsole.client.widgets.NedLibrarySelectorWidget;
 import org.ned.server.nedadminconsole.client.widgets.NedLibraryTree;
 import org.ned.server.nedadminconsole.client.widgets.NedMotdWidget;
@@ -113,6 +114,9 @@ public class NedMainPage implements EntryPoint, NedModelListener {
         Widget widgetStatistics = new NedStatisticsWidget();
         tabPanelMain.add(widgetStatistics, NedRes.instance().mainStatistics(),
                 false);
+
+        Widget widgetLanguage = new NedLanguageWidget();
+        tabPanelMain.add(widgetLanguage, NedRes.instance().mainLanguage(), false); 
 
        
         decoratorPanelFill = new SimplePanel();

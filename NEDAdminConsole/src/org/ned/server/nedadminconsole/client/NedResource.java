@@ -91,6 +91,7 @@ public interface NedResource extends Constants{
     String mainMediaItem();
     String mainMOTD();
     String mainStatistics();
+    String mainLanguage();
     
     String statisticsDownload();
     
@@ -115,4 +116,13 @@ public interface NedResource extends Constants{
     String msgErrorConnection();
     String msgErrorEmptyName();
     String msgErrorNoLibrarySelected();
+
+    String langUploaded();
+    String langAddLanguage();
+    String langName();
+    String langLocaleString();
+    String langTranslationFile();
+    String langMsgNoFile();
+
+    String userDlgAddNewLanguage();
 }

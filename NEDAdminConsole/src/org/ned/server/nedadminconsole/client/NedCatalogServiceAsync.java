@@ -12,6 +12,7 @@ package org.ned.server.nedadminconsole.client;
 
 import java.util.List;
 
+import org.ned.server.nedadminconsole.shared.NedLanguage;
 import org.ned.server.nedadminconsole.shared.NedObject;
 import org.ned.server.nedadminconsole.shared.NedUser;
 
@@ -38,5 +39,7 @@ public interface NedCatalogServiceAsync {
     void getUserList(AsyncCallback<List<NedUser>> callback);
 
     void updateUsers(List<NedUser> users, AsyncCallback<Boolean> callback);
+
+    void getLanguageList(AsyncCallback<List<NedLanguage>> callback);
 
 }

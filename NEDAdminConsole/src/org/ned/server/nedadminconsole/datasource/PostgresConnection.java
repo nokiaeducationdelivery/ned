@@ -27,6 +27,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.ned.server.nedadminconsole.shared.NedLanguage;
 import org.ned.server.nedadminconsole.shared.NedObject;
 import org.ned.server.nedadminconsole.shared.NedUser;
 
@@ -53,6 +54,9 @@ public class PostgresConnection {
     final String selectMotd = "SELECT message FROM motd WHERE  motd_id=1;";
     final String updateMotd = "UPDATE motd SET  message=? WHERE motd_id=1;";
     final String insertMotd = "INSERT INTO motd(motd_id, message) VALUES (1, ?)";
+
+    final String getLanguages = "SELECT name, locale_string, translation_file FROM languages ;";
+    final String addLanguage = "INSERT INTO languages(locale_string, name, translation_file) VALUES(?, ?, ?) ;";
 
     final String getStatistics = "SELECT * FROM statistics";
     
@@ -318,6 +322,30 @@ public class PostgresConnection {
         
         csvWriter.writeAll(results, true);        
      
+    }
+
+    public List<NedLanguage> getLanguageList() throws Exception {
+        List<NedLanguage> retval = new LinkedList<NedLanguage>();
+        connect();
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(getLanguages);
+        ResultSet results = sqlStatement.executeQuery();
+
+        while (results.next()) {
+            NedLanguage language = new NedLanguage(results.getString(1),
+                    results.getString(2), results.getString(3));
+            retval.add(language);
+        }
+        return retval;
+    }
+
+    public void uploadNewLanguage(String finalFileName, String languageName,
+            String languageLocale) throws NamingException, SQLException {
+        connect();
+        PreparedStatement sqlStatement = sqlConnection.prepareStatement(addLanguage);
+        sqlStatement.setString(1, languageLocale);
+        sqlStatement.setString(2, languageName);
+        sqlStatement.setString(3, finalFileName);
+        sqlStatement.executeUpdate();
     }
 
 }

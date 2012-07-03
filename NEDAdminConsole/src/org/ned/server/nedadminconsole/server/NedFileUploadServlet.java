@@ -110,9 +110,12 @@ public class NedFileUploadServlet extends HttpServlet {
                     libraryId = item.getString();
                 } else if (item.getFieldName().equals("contentId")) {
                     contentId = item.getString();
+                } else if(item.getFieldName().equals("languageName"))
+                {
+                    processUploadNewLanguage(items, resp);
+                    return;
                 }
             }
-
         iter = items.iterator();
         while (iter.hasNext()) {
             item = (FileItem) iter.next();
@@ -187,6 +190,102 @@ public class NedFileUploadServlet extends HttpServlet {
         resp.getWriter().print(contentType);
         resp.flushBuffer();
         disconnectPostgres();
+    }
+
+    private void processUploadNewLanguage(List<?> items, HttpServletResponse resp) throws IOException {
+        Iterator<?> iter = items.iterator();
+        String languageName = null;
+        String languageLocale = null;
+        String fileName;
+        String finalFileName;
+        while(iter.hasNext())
+        {
+            FileItem item = (FileItem) iter.next();
+
+            if (item.getFieldName().equals("languageName")) {
+                languageName = item.getString();
+            } else if (item.getFieldName().equals("languageLocale")) {
+               languageLocale = item.getString();
+            } else if(!item.isFormField())
+            {
+                fileName = item.getName();
+                int slashindex = fileName.lastIndexOf('\\');
+                if (slashindex > -1) {
+                    finalFileName = fileName.substring(slashindex + 1, fileName.length());
+                } else {
+                    finalFileName = fileName.substring(fileName.lastIndexOf('/') + 1,
+                            fileName.length());
+                }
+
+                // FILE PATH CONSISTS OF
+                // ROOT - TOMCAT_PATH\webapps\ROOT
+                // BASEROOT - Languages
+                // FILENAME - GET FROM CHOSEN FILE
+
+                String directory = createLanguageDir();
+
+                File fDir = new File(directory);
+                fDir.getAbsolutePath();
+                if (!fDir.exists()) {
+                    fDir.mkdirs();
+                }
+
+                finalFileName = createFilePath(directory, finalFileName);
+                String uf = directory + finalFileName;
+                File uploadedFile = new File(uf);
+
+                // //////////////////////////////////////////////
+                InputStream uploadedStream = item.getInputStream();
+                FileOutputStream fos = new FileOutputStream(uploadedFile);
+                byte[] myarray = new byte[1024];
+                int i = 0;
+                while ((i = uploadedStream.read(myarray)) != -1) {
+                    fos.write(myarray, 0, i);
+                }
+                fos.flush();
+                fos.close();
+                uploadedStream.close();
+
+                // update database
+                try {
+                    if(languageName != null && languageLocale != null)
+                    {
+                        getPosgresConnection().uploadNewLanguage(finalFileName, languageName, languageLocale);
+                    }
+                } catch (Exception ex) {
+                    // TODO delete file
+                    Logger.getLogger(NedFileUploadServlet.class.getSimpleName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+                    resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    resp.getWriter().print(
+                            NedServerResponses.ERROR_DATABASE_UPDATE);
+                    resp.flushBuffer();
+                    disconnectPostgres();
+                    return;
+                }
+            }
+        }
+
+    }
+
+    private String createLanguageDir( )
+    {
+        ServletContext context = getServletConfig().getServletContext();
+        String path = context.getRealPath("/");
+
+        boolean serveronwindows = !path.startsWith("/");
+
+        String root = "";
+        int idx = path.lastIndexOf("NEDAdminConsole");
+        root = path.substring(0, idx);
+        root += "ROOT\\";     
+
+        String directory = root + "\\locales\\";
+
+        if (!serveronwindows) {
+            directory = directory.replace('\\', '/');
+        }
+
+        return directory;
     }
 
     private String createDirectory(String libId){ 

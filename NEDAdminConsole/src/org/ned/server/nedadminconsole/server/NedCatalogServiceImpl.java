@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import org.ned.server.nedadminconsole.client.NedCatalogService;
 import org.ned.server.nedadminconsole.datasource.PostgresConnection;
+import org.ned.server.nedadminconsole.shared.NedLanguage;
 import org.ned.server.nedadminconsole.shared.NedObject;
 import org.ned.server.nedadminconsole.shared.NedUser;
 
@@ -205,6 +206,21 @@ public class NedCatalogServiceImpl extends RemoteServiceServlet implements
             connection.disconnect();
         }
         return retVal;
+    }
+
+    @Override
+    public List<NedLanguage> getLanguageList() {
+        List<NedLanguage> retval = null;
+        PostgresConnection connection = new PostgresConnection();
+        try {
+            retval = connection.getLanguageList();
+        } catch (Exception ex) {
+            Logger.getLogger(NedCatalogServiceImpl.class.getName()).log(
+                    Level.SEVERE, ex.getMessage(), ex);
+        } finally {
+            connection.disconnect();
+        }
+        return retval;
     }
 
 }

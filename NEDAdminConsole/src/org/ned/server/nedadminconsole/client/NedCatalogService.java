@@ -12,6 +12,7 @@ package org.ned.server.nedadminconsole.client;
 
 import java.util.List;
 
+import org.ned.server.nedadminconsole.shared.NedLanguage;
 import org.ned.server.nedadminconsole.shared.NedObject;
 import org.ned.server.nedadminconsole.shared.NedUser;
 
@@ -30,4 +31,5 @@ public interface NedCatalogService extends RemoteService {
     String getMotd();
     List<NedUser> getUserList();
     boolean updateUsers(List<NedUser> users);
+    List<NedLanguage> getLanguageList();
 }
