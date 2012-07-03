@@ -45,12 +45,6 @@ public class NedCatalogServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public NedObject getLibraryInfo(String id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public List<NedObject> getFullNode(String id) {
         List<NedObject> retval = null;
         PostgresConnection connection = new PostgresConnection();
