@@ -32,6 +32,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NedMainPage implements EntryPoint, NedModelListener {
@@ -45,6 +47,7 @@ public class NedMainPage implements EntryPoint, NedModelListener {
     private TabPanel tabPanelMain;
     private VerticalPanel verticalPanel;
     private NedLibrarySelectorWidget librarySelector;
+    protected int currentTabIndex;
 
     @Override
     public void onModuleLoad() {
@@ -126,14 +129,33 @@ public class NedMainPage implements EntryPoint, NedModelListener {
                 .addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
                     public void onBeforeSelection(
                             BeforeSelectionEvent<Integer> event) {
-                        if (event.getItem().intValue() == 1
+                        int selectedIndex = event.getItem().intValue();
+                        if (selectedIndex == 1
                                 && model.getCurrentLibrary() == null) {
                             NedAlert.showAlert(NedRes.instance()
                                     .msgErrorNoLibrarySelected());
                             event.cancel();
+                        } else if(tabPanelMain.getWidget(currentTabIndex) instanceof NedUserManagementWidget)
+                        {
+                            NedUserManagementWidget userManagement = (NedUserManagementWidget) tabPanelMain.getWidget(currentTabIndex);
+                            if(userManagement.isBlocked())
+                            {
+                                userManagement.tryPersist(selectedIndex, tabPanelMain);
+                                event.cancel();
+                            }
                         }
                     }
                 });
+        tabPanelMain.addSelectionHandler(new SelectionHandler<Integer>() {
+            @Override
+            public void onSelection(SelectionEvent<Integer> event) {
+                currentTabIndex = event.getSelectedItem().intValue();
+                if(tabPanelMain.getWidget(currentTabIndex) instanceof NedUserManagementWidget)
+                {
+                    ((NedUserManagementWidget) tabPanelMain.getWidget(currentTabIndex)).refreshBlockNavigation();
+                }
+            }
+        });
     }
 
     @Override

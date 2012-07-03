@@ -47,6 +47,7 @@ public interface NedResource extends Constants{
     String userDlgPasswordEmpty(); 
     String userDlgPasswordIdentical();
     String userDlgRepeatPassword();
+    String userDlgChangesNotSaved();
     
     String libDlgChooseLibrary();
     String libDlgSelectLibrary();

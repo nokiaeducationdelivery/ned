@@ -22,13 +22,17 @@ import org.ned.server.nedadminconsole.client.callbacks.NedUserListCallback;
 import org.ned.server.nedadminconsole.client.dialogs.NedAddNewUserDialog;
 import org.ned.server.nedadminconsole.client.dialogs.NedAlert;
 import org.ned.server.nedadminconsole.client.dialogs.NedChangePasswordDialog;
+import org.ned.server.nedadminconsole.client.interfaces.ConfirmCallback;
 import org.ned.server.nedadminconsole.client.interfaces.NedUserListUpdater;
 import org.ned.server.nedadminconsole.client.interfaces.NedUsernameReceiver;
 import org.ned.server.nedadminconsole.shared.NedUser;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -38,6 +42,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -48,7 +53,7 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
     private Grid gridUsers;
     private Label labelUsername; 
     private Label labelPassword;
-    
+    private boolean blockNavigation = false;
 
     public NedUserManagementWidget() {
 
@@ -127,6 +132,11 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
         }
     }
 
+    protected void onUnload()
+    {
+        NedAlert.showInfo("unload");
+    }
+
     public void loadUsers(List<NedUser> listUsers) {
         this.listUsers = listUsers;
         if(listUsers != null && gridUsers != null)
@@ -136,14 +146,14 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
         addUsersToList();
         }
     }
-    
+
     private void addUsersToList() {
         
         for (int i = 0; i < listUsers.size(); i++) {
             fillUserRow(i+1, listUsers.get(i).username, "********");
         }
     }
-    
+
     private void fillUserRow(int index, String username, String password)
     {
         TextBox textBoxUsername = new TextBox();
@@ -231,6 +241,7 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
                 listUsers.remove(deleted);
             }
             gridUsers.removeRow(index + 1);
+            blockNavigation = true;
         }
     }
     
@@ -263,17 +274,21 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
 
         @Override
         public void onClick(ClickEvent event) {
-            List<NedUser> changedUsers = getChangedUsersList();
-            
-            if(changedUsers.size() > 0)
-            {
-                updateUsers(changedUsers);
-            } else {
-                NedAlert.showAlert(NedRes.instance().msgNoChanges());
-            }
+            saveUsers();
         }
     }
     
+    private void saveUsers() {
+        List<NedUser> changedUsers = getChangedUsersList();
+
+        if(changedUsers.size() > 0)
+        {
+            updateUsers(changedUsers);
+        } else {
+            NedAlert.showAlert(NedRes.instance().msgNoChanges());
+        }
+    }
+
     private void updateUsers(List<NedUser> changedUsers){
         if( changedUsers!= null && changedUsers.size() > 0){
             NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
@@ -305,6 +320,7 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
         String password = new NedStringGenerator().nextString(8);
         addUserToList(received, password);
         fillUserRow(lastIndex, received, password);
+        blockNavigation = true;
     }
 
     private void addUserToList(String username, String password) {
@@ -323,7 +339,7 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
                 listUsers.get(i).flags = NedUser.DATABASE_PRESENT;
             }
         }
-        
+        blockNavigation = false;
         
     }
 
@@ -335,6 +351,57 @@ public class NedUserManagementWidget extends Composite implements NedUsernameRec
             listUsers.get(actualIndex(index)).flags |= NedUser.CHANGED;
             listUsers.get(actualIndex(index)).password = passowrd;
         }
+    }
+
+    public boolean isPersisted() {
+            List<NedUser> changedUsers = getChangedUsersList();
+            return changedUsers == null || changedUsers.size() == 0;
+    }
+
+    public void tryPersist(int nextIndex, TabPanel tabPanelMain) {
+            NedAlert.showConfirmYesNoCancel(NedRes.instance().userDlgChangesNotSaved(), new TryPersistCallback(nextIndex, tabPanelMain));
+    }
+
+    private class TryPersistCallback implements ConfirmCallback 
+    {
+        private TabPanel tabPanelMain;
+        private int nextIndex;
+
+        TryPersistCallback(int nextIndex, TabPanel tabPanelMain)
+        {
+        this.nextIndex = nextIndex;
+        this.tabPanelMain = tabPanelMain;
+        }
+
+        @Override
+        public void onYes() {
+            saveUsers();
+        }
+
+        @Override
+        public void onNo() {
+            blockNavigation  = false;
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override
+                public void execute() {
+                    tabPanelMain.selectTab(nextIndex);
+                }
+            });
+        }
+
+        @Override
+        public void onCancel() {
+        }
+        
+    }
+
+    public boolean isBlocked() {
+        return blockNavigation;
+    }
+
+    public void refreshBlockNavigation() {
+        blockNavigation = !isPersisted();
+        
     }
 
 }
