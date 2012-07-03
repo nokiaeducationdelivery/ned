@@ -22,6 +22,7 @@ import org.ned.server.nedadminconsole.shared.NedObject;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -42,7 +43,7 @@ public class NedNewElementDialog extends DialogBox {
     private TextBox textBoxName;
     private TreeItem parentTreeItem;
     private Label labelIdResult;
-    private final String idRegExp = "^[[a-z][A-Z][0-9]]*$";
+    private final String idRegExp = "^[a-zA-Z0-9]*$";
 
     public NedNewElementDialog(String type, String parentId,
             TreeItem parentTreeItem) {
@@ -207,7 +208,8 @@ public class NedNewElementDialog extends DialogBox {
         public void onClick(ClickEvent event) {
             if (!textBoxId.getText().isEmpty()) {
                 labelIdResult.setText("");
-                if (!textBoxId.getText().matches(idRegExp)) {
+                RegExp pattern = RegExp.compile(idRegExp);
+                if ( !pattern.test(textBoxId.getText() ) ) {
                     labelIdResult.setText(NedRes.instance()
                             .newElemDlgIdIllegal());
                 } else {
