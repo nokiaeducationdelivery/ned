@@ -35,8 +35,7 @@ public class NedStatisticsWidget extends Composite {
         buttonDownload.setText(NedRes.instance().statisticsDownload());
         buttonDownload.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                com.google.gwt.user.client.Window.open("NedStatisticsFileServlet",
-                        "Download", "");
+                com.google.gwt.user.client.Window.Location.assign("NedStatisticsFileServlet");
             }
         });
         verticalPanel.add(buttonDownload);
