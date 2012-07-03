@@ -15,6 +15,7 @@ import org.ned.server.nedadminconsole.client.NedRes;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -35,7 +36,7 @@ public class NedStatisticsWidget extends Composite {
         buttonDownload.setText(NedRes.instance().statisticsDownload());
         buttonDownload.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                com.google.gwt.user.client.Window.Location.assign("NedStatisticsFileServlet");
+                com.google.gwt.user.client.Window.Location.assign(GWT.getHostPageBaseURL() + "NedStatisticsFileServlet");
             }
         });
         verticalPanel.add(buttonDownload);
