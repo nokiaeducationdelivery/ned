@@ -261,11 +261,29 @@ CREATE TABLE extensions (
 
 ALTER TABLE public.extensions OWNER TO ned;
 
---
--- TOC entry 1529 (class 1259 OID 98386)
--- Dependencies: 6
--- Name: motd; Type: TABLE; Schema: public; Owner: ned; Tablespace: 
---
+
+CREATE TABLE languages (
+    id integer NOT NULL,
+    locale_string character varying(10) NOT NULL,
+    name character varying(25) NOT NULL,
+    translation_file text NOT NULL,
+    font_file text
+);
+
+ALTER TABLE public.languages OWNER TO ned;
+
+CREATE SEQUENCE languages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.languages_id_seq OWNER TO ned;
+
+ALTER SEQUENCE languages_id_seq OWNED BY languages.id;
+
+SELECT pg_catalog.setval('languages_id_seq', 1, false);
 
 CREATE TABLE motd (
     motd_id integer NOT NULL,
@@ -448,6 +466,7 @@ SELECT pg_catalog.setval('users_id_seq', 22, true);
 
 ALTER TABLE containers ALTER COLUMN id SET DEFAULT nextval('containers_id_seq'::regclass);
 
+ALTER TABLE languages ALTER COLUMN id SET DEFAULT nextval('languages_id_seq'::regclass);
 
 --
 -- TOC entry 1816 (class 2604 OID 98416)
@@ -591,6 +610,8 @@ ALTER TABLE ONLY containertypes
 ALTER TABLE ONLY extensions
     ADD CONSTRAINT extensions_pkey PRIMARY KEY (extension);
 
+ALTER TABLE ONLY languages
+    ADD CONSTRAINT languages_pkey PRIMARY KEY (id);
 
 --
 -- TOC entry 1829 (class 2606 OID 98426)
