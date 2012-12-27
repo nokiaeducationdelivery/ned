@@ -194,7 +194,8 @@ CREATE TABLE containers (
     description text,
     keywords character varying(15)[],
     links character varying(150)[],
-    version integer DEFAULT 0
+    version integer DEFAULT 0,
+    index integer DEFAULT 0
 );
 
 

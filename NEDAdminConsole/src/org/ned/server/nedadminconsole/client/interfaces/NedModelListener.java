@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.ned.server.nedadminconsole.client.interfaces;
 
 import org.ned.server.nedadminconsole.client.NedDataModel;
+import org.ned.server.nedadminconsole.shared.NedObject;
 
 public interface NedModelListener {
     void libraryChanged(NedDataModel source);
@@ -24,4 +25,6 @@ public interface NedModelListener {
     void fileUploaded(NedDataModel source);
 
     void objectDeleted(NedDataModel source, String objectType);
+    
+    void objectMoved( NedDataModel source, boolean moveUp );
 }

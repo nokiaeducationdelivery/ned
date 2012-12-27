@@ -1,21 +1,20 @@
 function nedadminconsole(){
-  var $intern_0 = '', $intern_35 = '" for "gwt:onLoadErrorFn"', $intern_33 = '" for "gwt:onPropertyErrorFn"', $intern_21 = '"><\/script>', $intern_10 = '#', $intern_43 = '&', $intern_82 = '.cache.html', $intern_12 = '/', $intern_61 = '05076D707F97541010D49090847F4C87', $intern_63 = '0E2478812C959FF8730BD06AD6DE0FD0', $intern_65 = '0EBA18013053412C09AC07D45C47EAAE', $intern_66 = '11EAABA63C48F8C4F5AF19FA547CEFDD', $intern_67 = '19B1BB9A6BCCD25BD1FF7A56D02FA49C', $intern_68 = '268F67C8C7485E2AAB4E3F475CBC15C6', $intern_69 = '6A8E8373DD903E3092A74E41174B8636', $intern_70 = '7F2B19DD60B5FD09A98DF9C908A388BB', $intern_71 = '8BDC1C5799CC913A5E56F58A2AB8C129', $intern_72 = '955B6356E37B017D940D0001CD6ADBBC', $intern_81 = ':', $intern_27 = '::', $intern_90 = '<script defer="defer">nedadminconsole.onInjectionDone(\'nedadminconsole\')<\/script>', $intern_20 = '<script id="', $intern_30 = '=', $intern_11 = '?', $intern_73 = 'A29F7616942C811C925BE2E99BB9C3D0', $intern_74 = 'BA57655FABA5614D24857C070F8560BC', $intern_75 = 'BCE61323FCBC079945571A02F5CAE4C2', $intern_32 = 'Bad handler "', $intern_76 = 'D50691787882F24F98D4A2BF7BAFD336', $intern_89 = 'DOMContentLoaded', $intern_77 = 'E5FAEDA45E3FAC37BEDC5D27684CAC5E', $intern_78 = 'EBCB96BBFD2D9BC2CD4DF15133756D5B', $intern_79 = 'F621937F1FA4C3D1E774F7E59ABA2157', $intern_80 = 'F6C305E517BC8B25A9C6046F5A6032FC', $intern_22 = 'SCRIPT', $intern_46 = 'Unexpected exception in locale detection, using default: ', $intern_45 = '_', $intern_44 = '__gwt_Locale', $intern_19 = '__gwt_marker_nedadminconsole', $intern_23 = 'base', $intern_15 = 'baseUrl', $intern_4 = 'begin', $intern_3 = 'bootstrap', $intern_14 = 'clear.cache.gif', $intern_29 = 'content', $intern_64 = 'de', $intern_62 = 'default', $intern_41 = 'en', $intern_9 = 'end', $intern_55 = 'gecko', $intern_56 = 'gecko1_8', $intern_5 = 'gwt.codesvr=', $intern_6 = 'gwt.hosted=', $intern_7 = 'gwt.hybrid', $intern_83 = 'gwt/chrome/chrome.css', $intern_34 = 'gwt:onLoadErrorFn', $intern_31 = 'gwt:onPropertyErrorFn', $intern_28 = 'gwt:property', $intern_88 = 'head', $intern_59 = 'hosted.html?nedadminconsole', $intern_87 = 'href', $intern_54 = 'ie6', $intern_53 = 'ie8', $intern_52 = 'ie9', $intern_36 = 'iframe', $intern_13 = 'img', $intern_37 = "javascript:''", $intern_84 = 'link', $intern_58 = 'loadExternalRefs', $intern_40 = 'locale', $intern_42 = 'locale=', $intern_24 = 'meta', $intern_39 = 'moduleRequested', $intern_8 = 'moduleStartup', $intern_51 = 'msie', $intern_25 = 'name', $intern_1 = 'nedadminconsole', $intern_17 = 'nedadminconsole.nocache.js', $intern_26 = 'nedadminconsole::', $intern_48 = 'opera', $intern_38 = 'position:absolute;width:0;height:0;border:none', $intern_85 = 'rel', $intern_50 = 'safari', $intern_16 = 'script', $intern_60 = 'selectingPermutation', $intern_2 = 'startup', $intern_86 = 'stylesheet', $intern_18 = 'undefined', $intern_57 = 'unknown', $intern_47 = 'user.agent', $intern_49 = 'webkit';
-  var $wnd = window, $doc = document, $stats = $wnd.__gwtStatsEvent?function(a){
-    return $wnd.__gwtStatsEvent(a);
+  var $wnd_0 = window, $doc_0 = document, $stats = $wnd_0.__gwtStatsEvent?function(a){
+    return $wnd_0.__gwtStatsEvent(a);
   }
-  :null, $sessionId = $wnd.__gwtStatsSessionId?$wnd.__gwtStatsSessionId:null, scriptsDone, loadDone, bodyDone, base = $intern_0, metaProps = {}, values = [], providers = [], answers = [], softPermutationId = 0, onLoadErrorFunc, propertyErrorFunc;
-  $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_3, millis:(new Date).getTime(), type:$intern_4});
-  if (!$wnd.__gwt_stylesLoaded) {
-    $wnd.__gwt_stylesLoaded = {};
+  :null, $sessionId_0 = $wnd_0.__gwtStatsSessionId?$wnd_0.__gwtStatsSessionId:null, scriptsDone, loadDone, bodyDone, base = '', metaProps = {}, values = [], providers = [], answers = [], softPermutationId = 0, onLoadErrorFunc, propertyErrorFunc;
+  $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'begin'});
+  if (!$wnd_0.__gwt_stylesLoaded) {
+    $wnd_0.__gwt_stylesLoaded = {};
   }
-  if (!$wnd.__gwt_scriptsLoaded) {
-    $wnd.__gwt_scriptsLoaded = {};
+  if (!$wnd_0.__gwt_scriptsLoaded) {
+    $wnd_0.__gwt_scriptsLoaded = {};
   }
   function isHostedMode(){
     var result = false;
     try {
-      var query = $wnd.location.search;
-      return (query.indexOf($intern_5) != -1 || (query.indexOf($intern_6) != -1 || $wnd.external && $wnd.external.gwtOnLoad)) && query.indexOf($intern_7) == -1;
+      var query = $wnd_0.location.search;
+      return (query.indexOf('gwt.codesvr=') != -1 || (query.indexOf('gwt.hosted=') != -1 || $wnd_0.external && $wnd_0.external.gwtOnLoad)) && query.indexOf('gwt.hybrid') == -1;
     }
      catch (e) {
     }
@@ -28,72 +27,72 @@ function nedadminconsole(){
 
   function maybeStartModule(){
     if (scriptsDone && loadDone) {
-      var iframe = $doc.getElementById($intern_1);
+      var iframe = $doc_0.getElementById('nedadminconsole');
       var frameWnd = iframe.contentWindow;
       if (isHostedMode()) {
-        frameWnd.__gwt_getProperty = function(name){
-          return computePropValue(name);
+        frameWnd.__gwt_getProperty = function(name_0){
+          return computePropValue(name_0);
         }
         ;
       }
       nedadminconsole = null;
-      frameWnd.gwtOnLoad(onLoadErrorFunc, $intern_1, base, softPermutationId);
-      $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_8, millis:(new Date).getTime(), type:$intern_9});
+      frameWnd.gwtOnLoad(onLoadErrorFunc, 'nedadminconsole', base, softPermutationId);
+      $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'moduleStartup', millis:(new Date).getTime(), type:'end'});
     }
   }
 
   function computeScriptBase(){
     function getDirectoryOfFile(path){
-      var hashIndex = path.lastIndexOf($intern_10);
+      var hashIndex = path.lastIndexOf('#');
       if (hashIndex == -1) {
         hashIndex = path.length;
       }
-      var queryIndex = path.indexOf($intern_11);
+      var queryIndex = path.indexOf('?');
       if (queryIndex == -1) {
         queryIndex = path.length;
       }
-      var slashIndex = path.lastIndexOf($intern_12, Math.min(queryIndex, hashIndex));
-      return slashIndex >= 0?path.substring(0, slashIndex + 1):$intern_0;
+      var slashIndex = path.lastIndexOf('/', Math.min(queryIndex, hashIndex));
+      return slashIndex >= 0?path.substring(0, slashIndex + 1):'';
     }
 
     function ensureAbsoluteUrl(url){
       if (url.match(/^\w+:\/\//)) {
       }
        else {
-        var img = $doc.createElement($intern_13);
-        img.src = url + $intern_14;
+        var img = $doc_0.createElement('img');
+        img.src = url + 'clear.cache.gif';
         url = getDirectoryOfFile(img.src);
       }
       return url;
     }
 
     function tryMetaTag(){
-      var metaVal = __gwt_getMetaProperty($intern_15);
+      var metaVal = __gwt_getMetaProperty('baseUrl');
       if (metaVal != null) {
         return metaVal;
       }
-      return $intern_0;
+      return '';
     }
 
     function tryNocacheJsTag(){
-      var scriptTags = $doc.getElementsByTagName($intern_16);
+      var scriptTags = $doc_0.getElementsByTagName('script');
       for (var i = 0; i < scriptTags.length; ++i) {
-        if (scriptTags[i].src.indexOf($intern_17) != -1) {
+        if (scriptTags[i].src.indexOf('nedadminconsole.nocache.js') != -1) {
           return getDirectoryOfFile(scriptTags[i].src);
         }
       }
-      return $intern_0;
+      return '';
     }
 
     function tryMarkerScript(){
       var thisScript;
-      if (typeof isBodyLoaded == $intern_18 || !isBodyLoaded()) {
-        var markerId = $intern_19;
+      if (typeof isBodyLoaded == 'undefined' || !isBodyLoaded()) {
+        var markerId = '__gwt_marker_nedadminconsole';
         var markerScript;
-        $doc.write($intern_20 + markerId + $intern_21);
-        markerScript = $doc.getElementById(markerId);
+        $doc_0.write('<script id="' + markerId + '"><\/script>');
+        markerScript = $doc_0.getElementById(markerId);
         thisScript = markerScript && markerScript.previousSibling;
-        while (thisScript && thisScript.tagName != $intern_22) {
+        while (thisScript && thisScript.tagName != 'SCRIPT') {
           thisScript = thisScript.previousSibling;
         }
         if (markerScript) {
@@ -103,29 +102,29 @@ function nedadminconsole(){
           return getDirectoryOfFile(thisScript.src);
         }
       }
-      return $intern_0;
+      return '';
     }
 
     function tryBaseTag(){
-      var baseElements = $doc.getElementsByTagName($intern_23);
+      var baseElements = $doc_0.getElementsByTagName('base');
       if (baseElements.length > 0) {
         return baseElements[baseElements.length - 1].href;
       }
-      return $intern_0;
+      return '';
     }
 
     var tempBase = tryMetaTag();
-    if (tempBase == $intern_0) {
+    if (tempBase == '') {
       tempBase = tryNocacheJsTag();
     }
-    if (tempBase == $intern_0) {
+    if (tempBase == '') {
       tempBase = tryMarkerScript();
     }
-    if (tempBase == $intern_0) {
+    if (tempBase == '') {
       tempBase = tryBaseTag();
     }
-    if (tempBase == $intern_0) {
-      tempBase = getDirectoryOfFile($doc.location.href);
+    if (tempBase == '') {
+      tempBase = getDirectoryOfFile($doc_0.location.href);
     }
     tempBase = ensureAbsoluteUrl(tempBase);
     base = tempBase;
@@ -133,48 +132,48 @@ function nedadminconsole(){
   }
 
   function processMetas(){
-    var metas = document.getElementsByTagName($intern_24);
+    var metas = document.getElementsByTagName('meta');
     for (var i = 0, n = metas.length; i < n; ++i) {
-      var meta = metas[i], name = meta.getAttribute($intern_25), content;
-      if (name) {
-        name = name.replace($intern_26, $intern_0);
-        if (name.indexOf($intern_27) >= 0) {
+      var meta = metas[i], name_0 = meta.getAttribute('name'), content_0;
+      if (name_0) {
+        name_0 = name_0.replace('nedadminconsole::', '');
+        if (name_0.indexOf('::') >= 0) {
           continue;
         }
-        if (name == $intern_28) {
-          content = meta.getAttribute($intern_29);
-          if (content) {
-            var value, eq = content.indexOf($intern_30);
+        if (name_0 == 'gwt:property') {
+          content_0 = meta.getAttribute('content');
+          if (content_0) {
+            var value, eq = content_0.indexOf('=');
             if (eq >= 0) {
-              name = content.substring(0, eq);
-              value = content.substring(eq + 1);
+              name_0 = content_0.substring(0, eq);
+              value = content_0.substring(eq + 1);
             }
              else {
-              name = content;
-              value = $intern_0;
+              name_0 = content_0;
+              value = '';
             }
-            metaProps[name] = value;
+            metaProps[name_0] = value;
           }
         }
-         else if (name == $intern_31) {
-          content = meta.getAttribute($intern_29);
-          if (content) {
+         else if (name_0 == 'gwt:onPropertyErrorFn') {
+          content_0 = meta.getAttribute('content');
+          if (content_0) {
             try {
-              propertyErrorFunc = eval(content);
+              propertyErrorFunc = eval(content_0);
             }
              catch (e) {
-              alert($intern_32 + content + $intern_33);
+              alert('Bad handler "' + content_0 + '" for "gwt:onPropertyErrorFn"');
             }
           }
         }
-         else if (name == $intern_34) {
-          content = meta.getAttribute($intern_29);
-          if (content) {
+         else if (name_0 == 'gwt:onLoadErrorFn') {
+          content_0 = meta.getAttribute('content');
+          if (content_0) {
             try {
-              onLoadErrorFunc = eval(content);
+              onLoadErrorFunc = eval(content_0);
             }
              catch (e) {
-              alert($intern_32 + content + $intern_35);
+              alert('Bad handler "' + content_0 + '" for "gwt:onLoadErrorFn"');
             }
           }
         }
@@ -186,8 +185,8 @@ function nedadminconsole(){
     return propValue in values[propName];
   }
 
-  function __gwt_getMetaProperty(name){
-    var value = metaProps[name];
+  function __gwt_getMetaProperty(name_0){
+    var value = metaProps[name_0];
     return value == null?null:value;
   }
 
@@ -218,27 +217,27 @@ function nedadminconsole(){
   function maybeInjectFrame(){
     if (!frameInjected) {
       frameInjected = true;
-      var iframe = $doc.createElement($intern_36);
-      iframe.src = $intern_37;
-      iframe.id = $intern_1;
-      iframe.style.cssText = $intern_38;
+      var iframe = $doc_0.createElement('iframe');
+      iframe.src = "javascript:''";
+      iframe.id = 'nedadminconsole';
+      iframe.style.cssText = 'position:absolute;width:0;height:0;border:none';
       iframe.tabIndex = -1;
-      $doc.body.appendChild(iframe);
-      $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_8, millis:(new Date).getTime(), type:$intern_39});
+      $doc_0.body.appendChild(iframe);
+      $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'moduleStartup', millis:(new Date).getTime(), type:'moduleRequested'});
       iframe.contentWindow.location.replace(base + initialHtml);
     }
   }
 
-  providers[$intern_40] = function(){
+  providers['locale'] = function(){
     var locale = null;
-    var rtlocale = $intern_41;
+    var rtlocale = 'en';
     try {
       if (!locale) {
         var queryParam = location.search;
-        var qpStart = queryParam.indexOf($intern_42);
+        var qpStart = queryParam.indexOf('locale=');
         if (qpStart >= 0) {
           var value = queryParam.substring(qpStart + 7);
-          var end = queryParam.indexOf($intern_43, qpStart);
+          var end = queryParam.indexOf('&', qpStart);
           if (end < 0) {
             end = queryParam.length;
           }
@@ -246,16 +245,16 @@ function nedadminconsole(){
         }
       }
       if (!locale) {
-        locale = __gwt_getMetaProperty($intern_40);
+        locale = __gwt_getMetaProperty('locale');
       }
       if (!locale) {
-        locale = $wnd[$intern_44];
+        locale = $wnd_0['__gwt_Locale'];
       }
       if (locale) {
         rtlocale = locale;
       }
-      while (locale && !__gwt_isKnownPropertyValue($intern_40, locale)) {
-        var lastIndex = locale.lastIndexOf($intern_45);
+      while (locale && !__gwt_isKnownPropertyValue('locale', locale)) {
+        var lastIndex = locale.lastIndexOf('_');
         if (lastIndex < 0) {
           locale = null;
           break;
@@ -264,55 +263,72 @@ function nedadminconsole(){
       }
     }
      catch (e) {
-      alert($intern_46 + e);
+      alert('Unexpected exception in locale detection, using default: ' + e);
     }
-    $wnd[$intern_44] = rtlocale;
-    return locale || $intern_41;
+    $wnd_0['__gwt_Locale'] = rtlocale;
+    return locale || 'en';
   }
   ;
-  values[$intern_40] = {de:0, 'default':1, en:2};
-  providers[$intern_47] = function(){
+  values['locale'] = {'default':0, en:1};
+  providers['user.agent'] = function(){
     var ua = navigator.userAgent.toLowerCase();
     var makeVersion = function(result){
       return parseInt(result[1]) * 1000 + parseInt(result[2]);
     }
     ;
     if (function(){
-      return ua.indexOf($intern_48) != -1;
+      return ua.indexOf('opera') != -1;
     }
     ())
-      return $intern_48;
+      return 'opera';
     if (function(){
-      return ua.indexOf($intern_49) != -1;
+      return ua.indexOf('webkit') != -1 || function(){
+        if (ua.indexOf('chromeframe') != -1) {
+          return true;
+        }
+        if (typeof window['ActiveXObject'] != 'undefined') {
+          try {
+            var obj = new ActiveXObject('ChromeTab.ChromeFrame');
+            if (obj) {
+              obj.registerBhoIfNeeded();
+              return true;
+            }
+          }
+           catch (e) {
+          }
+        }
+        return false;
+      }
+      ();
     }
     ())
-      return $intern_50;
+      return 'safari';
     if (function(){
-      return ua.indexOf($intern_51) != -1 && $doc.documentMode >= 9;
+      return ua.indexOf('msie') != -1 && $doc_0.documentMode >= 9;
     }
     ())
-      return $intern_52;
+      return 'ie9';
     if (function(){
-      return ua.indexOf($intern_51) != -1 && $doc.documentMode >= 8;
+      return ua.indexOf('msie') != -1 && $doc_0.documentMode >= 8;
     }
     ())
-      return $intern_53;
+      return 'ie8';
     if (function(){
       var result = /msie ([0-9]+)\.([0-9]+)/.exec(ua);
       if (result && result.length == 3)
         return makeVersion(result) >= 6000;
     }
     ())
-      return $intern_54;
+      return 'ie6';
     if (function(){
-      return ua.indexOf($intern_55) != -1;
+      return ua.indexOf('gecko') != -1;
     }
     ())
-      return $intern_56;
-    return $intern_57;
+      return 'gecko1_8';
+    return 'unknown';
   }
   ;
-  values[$intern_47] = {gecko1_8:0, ie6:1, ie8:2, ie9:3, opera:4, safari:5};
+  values['user.agent'] = {gecko1_8:0, ie6:1, ie8:2, ie9:3, opera:4, safari:5};
   nedadminconsole.onScriptLoad = function(){
     if (frameInjected) {
       loadDone = true;
@@ -322,7 +338,7 @@ function nedadminconsole(){
   ;
   nedadminconsole.onInjectionDone = function(){
     scriptsDone = true;
-    $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_58, millis:(new Date).getTime(), type:$intern_9});
+    $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'loadExternalRefs', millis:(new Date).getTime(), type:'end'});
     maybeStartModule();
   }
   ;
@@ -331,41 +347,35 @@ function nedadminconsole(){
   var strongName;
   var initialHtml;
   if (isHostedMode()) {
-    if ($wnd.external && ($wnd.external.initModule && $wnd.external.initModule($intern_1))) {
-      $wnd.location.reload();
+    if ($wnd_0.external && ($wnd_0.external.initModule && $wnd_0.external.initModule('nedadminconsole'))) {
+      $wnd_0.location.reload();
       return;
     }
-    initialHtml = $intern_59;
-    strongName = $intern_0;
+    initialHtml = 'hosted.html?nedadminconsole';
+    strongName = '';
   }
-  $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_3, millis:(new Date).getTime(), type:$intern_60});
+  $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      unflattenKeylistIntoAnswers([$intern_41, $intern_54], $intern_61);
-      unflattenKeylistIntoAnswers([$intern_62, $intern_50], $intern_63);
-      unflattenKeylistIntoAnswers([$intern_64, $intern_50], $intern_65);
-      unflattenKeylistIntoAnswers([$intern_41, $intern_48], $intern_66);
-      unflattenKeylistIntoAnswers([$intern_62, $intern_53], $intern_67);
-      unflattenKeylistIntoAnswers([$intern_64, $intern_52], $intern_68);
-      unflattenKeylistIntoAnswers([$intern_64, $intern_48], $intern_69);
-      unflattenKeylistIntoAnswers([$intern_64, $intern_56], $intern_70);
-      unflattenKeylistIntoAnswers([$intern_41, $intern_52], $intern_71);
-      unflattenKeylistIntoAnswers([$intern_64, $intern_54], $intern_72);
-      unflattenKeylistIntoAnswers([$intern_62, $intern_56], $intern_73);
-      unflattenKeylistIntoAnswers([$intern_41, $intern_53], $intern_74);
-      unflattenKeylistIntoAnswers([$intern_64, $intern_53], $intern_75);
-      unflattenKeylistIntoAnswers([$intern_62, $intern_48], $intern_76);
-      unflattenKeylistIntoAnswers([$intern_41, $intern_50], $intern_77);
-      unflattenKeylistIntoAnswers([$intern_62, $intern_52], $intern_78);
-      unflattenKeylistIntoAnswers([$intern_62, $intern_54], $intern_79);
-      unflattenKeylistIntoAnswers([$intern_41, $intern_56], $intern_80);
-      strongName = answers[computePropValue($intern_40)][computePropValue($intern_47)];
-      var idx = strongName.indexOf($intern_81);
+      unflattenKeylistIntoAnswers(['en', 'opera'], '12A193D17918BF93C1EDB74258F5333C');
+      unflattenKeylistIntoAnswers(['en', 'ie6'], '2197908D47307E3C165DDF68BE448B65');
+      unflattenKeylistIntoAnswers(['en', 'gecko1_8'], '3879AA9C0C6184AD6B825852D165AFCB');
+      unflattenKeylistIntoAnswers(['default', 'ie9'], '6A388F0AE2918BC13E525D37F379B465');
+      unflattenKeylistIntoAnswers(['en', 'safari'], '72F5205600BA9591DB9284511A4C59D0');
+      unflattenKeylistIntoAnswers(['default', 'gecko1_8'], '7465D4DCE42CB19DC3D2E563EE48DA2D');
+      unflattenKeylistIntoAnswers(['default', 'safari'], '76B8F63DB02268B8B5FBC9958A08F47B');
+      unflattenKeylistIntoAnswers(['en', 'ie8'], '7ABE8203FE889AB292659D18C9A1045A');
+      unflattenKeylistIntoAnswers(['en', 'ie9'], '8D303055BEE0FEDC923122EF3D41C410');
+      unflattenKeylistIntoAnswers(['default', 'ie8'], 'BFBDFE71885AF4ECD955623C835CADDB');
+      unflattenKeylistIntoAnswers(['default', 'opera'], 'CD612AA42A5FF32FCE528D28E9ADEE71');
+      unflattenKeylistIntoAnswers(['default', 'ie6'], 'DAD0AD26939811B667680DE13DF2B486');
+      strongName = answers[computePropValue('locale')][computePropValue('user.agent')];
+      var idx = strongName.indexOf(':');
       if (idx != -1) {
         softPermutationId = Number(strongName.substring(idx + 1));
         strongName = strongName.substring(0, idx);
       }
-      initialHtml = strongName + $intern_82;
+      initialHtml = strongName + '.cache.html';
     }
      catch (e) {
       return;
@@ -375,16 +385,23 @@ function nedadminconsole(){
   function onBodyDone(){
     if (!bodyDone) {
       bodyDone = true;
-      if (!__gwt_stylesLoaded[$intern_83]) {
-        var l = $doc.createElement($intern_84);
-        __gwt_stylesLoaded[$intern_83] = l;
-        l.setAttribute($intern_85, $intern_86);
-        l.setAttribute($intern_87, base + $intern_83);
-        $doc.getElementsByTagName($intern_88)[0].appendChild(l);
+      if (!__gwt_stylesLoaded['gwt/chrome/chrome.css']) {
+        var l = $doc_0.createElement('link');
+        __gwt_stylesLoaded['gwt/chrome/chrome.css'] = l;
+        l.setAttribute('rel', 'stylesheet');
+        l.setAttribute('href', base + 'gwt/chrome/chrome.css');
+        $doc_0.getElementsByTagName('head')[0].appendChild(l);
+      }
+      if (!__gwt_stylesLoaded['NedStyle.css']) {
+        var l = $doc_0.createElement('link');
+        __gwt_stylesLoaded['NedStyle.css'] = l;
+        l.setAttribute('rel', 'stylesheet');
+        l.setAttribute('href', base + 'NedStyle.css');
+        $doc_0.getElementsByTagName('head')[0].appendChild(l);
       }
       maybeStartModule();
-      if ($doc.removeEventListener) {
-        $doc.removeEventListener($intern_89, onBodyDone, false);
+      if ($doc_0.removeEventListener) {
+        $doc_0.removeEventListener('DOMContentLoaded', onBodyDone, false);
       }
       if (onBodyDoneTimerId) {
         clearInterval(onBodyDoneTimerId);
@@ -392,23 +409,23 @@ function nedadminconsole(){
     }
   }
 
-  if ($doc.addEventListener) {
-    $doc.addEventListener($intern_89, function(){
+  if ($doc_0.addEventListener) {
+    $doc_0.addEventListener('DOMContentLoaded', function(){
       maybeInjectFrame();
       onBodyDone();
     }
     , false);
   }
   var onBodyDoneTimerId = setInterval(function(){
-    if (/loaded|complete/.test($doc.readyState)) {
+    if (/loaded|complete/.test($doc_0.readyState)) {
       maybeInjectFrame();
       onBodyDone();
     }
   }
   , 50);
-  $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_3, millis:(new Date).getTime(), type:$intern_9});
-  $stats && $stats({moduleName:$intern_1, sessionId:$sessionId, subSystem:$intern_2, evtGroup:$intern_58, millis:(new Date).getTime(), type:$intern_4});
-  $doc.write($intern_90);
+  $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'end'});
+  $stats && $stats({moduleName:'nedadminconsole', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'loadExternalRefs', millis:(new Date).getTime(), type:'begin'});
+  $doc_0.write('<script defer="defer">nedadminconsole.onInjectionDone(\'nedadminconsole\')<\/script>');
 }
 
 nedadminconsole();

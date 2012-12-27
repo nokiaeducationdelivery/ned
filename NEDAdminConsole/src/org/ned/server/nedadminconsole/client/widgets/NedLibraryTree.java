@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -9,8 +9,6 @@
 * Comarch team - initial API and implementation
 *******************************************************************************/
 package org.ned.server.nedadminconsole.client.widgets;
-
-import java.util.List;
 
 import org.ned.server.nedadminconsole.client.NedCatalogService;
 import org.ned.server.nedadminconsole.client.NedCatalogServiceAsync;
@@ -33,12 +31,12 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class NedLibraryTree extends Composite implements NedModelListener {
 
@@ -71,8 +69,7 @@ public class NedLibraryTree extends Composite implements NedModelListener {
         libTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
             @Override
             public void onSelection(SelectionEvent<TreeItem> event) {
-                NedObject obj = ((NedTreeItem) event.getSelectedItem())
-                        .getNedObject();
+                NedObject obj = ((NedTreeItem) event.getSelectedItem()).getNedObject();
                 model.treeObjectSelection(obj, event.getSelectedItem());
                 updateAddButton(obj);
             }
@@ -148,38 +145,25 @@ public class NedLibraryTree extends Composite implements NedModelListener {
             NedObject currentObj = model.getCurrentObject();
             String parentId = currentObj == null ? null : currentObj.id;
 
-            new NedNewElementDialog(getAvailableType(currentObj), parentId,
+            new NedNewElementDialog(getAvailableType(currentObj), currentObj,
                     model.getCurrentTreeItem()).show();
 
         }
     }
-
-    public int fillTree(List<NedObject> nedObjectList, int currentIndex,
-            TreeItem parent) {
-        int childCount = 0;
-        NedObject currentObject = nedObjectList.get(currentIndex);
-        for (int i = currentIndex + 1; i < nedObjectList.size(); i++) {
-            if (nedObjectList.get(i).IsChildOf(currentObject)) {
-                childCount++;
-            }
-        }
-
-        NedTreeItem newItem = new NedTreeItem(currentObject);
-
-        for (int i = 0; i < childCount; i++) {
-            currentIndex++;// recursive call can increase current index by more
-                           // than 1 so need to update it after function returns
-            currentIndex = fillTree(nedObjectList, currentIndex, newItem);
-        }
-
+    
+    public void fillTree( NedObject currentObj, TreeItem parent ){
+    	NedTreeItem newItem = new NedTreeItem( currentObj );
+    	
+    	for(NedObject child : currentObj.childes){
+    		fillTree( child, newItem );
+    	}
+    	
         if (parent == null) {
             libTree.addItem(newItem);
         } else {
             parent.addItem(newItem);
         }
-        return currentIndex;
     }
-
     @Override
     public void libraryChanged(NedDataModel source) {
         if (source.getCurrentLibrary() != null) {
@@ -198,8 +182,8 @@ public class NedLibraryTree extends Composite implements NedModelListener {
     @Override
     public void libraryContentLoaded(NedDataModel source) {
         libTree.clear();
-        if (model.getNedLibrary() != null && !model.getNedLibrary().isEmpty()) {
-            fillTree(model.getNedLibrary(), 0, null);
+        if (model.getNedLibrary() != null ) {
+            fillTree(model.getNedLibrary(), null);
             labelLibraryName.setText(NedRes.instance().containerLibrary()
                     + ": " + model.getCurrentLibrary().name); 
             btnNewButton.setEnabled(false);
@@ -241,4 +225,23 @@ public class NedLibraryTree extends Composite implements NedModelListener {
         }
 
     }
+
+	@Override
+	public void objectMoved(NedDataModel source, boolean moveUp) {
+        TreeItem moveObj = source.getCurrentTreeItem();
+        TreeItem parentItem = moveObj.getParentItem();
+        int moveObjIndex = parentItem.getChildIndex( moveObj );
+        
+        
+        parentItem.removeItem(moveObj);
+        int newIndex;
+        if( moveUp ){
+        	newIndex = moveObjIndex - 1;
+        }else{
+        	newIndex = moveObjIndex + 1;
+        }
+        
+        parentItem.insertItem( newIndex, moveObj );
+        moveObj.getTree().setSelectedItem(moveObj, true);
+	}
 }

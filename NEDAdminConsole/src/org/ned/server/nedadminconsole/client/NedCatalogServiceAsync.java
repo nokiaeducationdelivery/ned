@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -22,7 +22,7 @@ public interface NedCatalogServiceAsync {
 
     void getLibraryList(AsyncCallback<List<NedObject>> callback);
 
-    void getFullNode(String id, AsyncCallback<List<NedObject>> callback);
+    void getFullNode(String id, AsyncCallback<NedObject> callback);
 
     void updateItem(NedObject item, AsyncCallback<Boolean> callback);
 
@@ -42,4 +42,5 @@ public interface NedCatalogServiceAsync {
 
     void getLanguageList(AsyncCallback<List<NedLanguage>> callback);
 
+	void updateItems(List<NedObject> itemList, AsyncCallback<Boolean> callback);
 }

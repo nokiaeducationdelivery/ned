@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -26,18 +26,20 @@ public class NedAddNewElementCallback implements AsyncCallback<Boolean> {
     private TreeItem parentUiNode;
     private NedObject newObject;
     private NedLibraryListUpdater libraryUpdater;
+    NedObject parentObject;
 
-    public NedAddNewElementCallback(DialogBox dialog, NedObject newObject,
+    public NedAddNewElementCallback(DialogBox dialog, NedObject newObject, NedObject parentObject,
             TreeItem parentUiNode, NedLibraryListUpdater libraryUpdater) {
+    	this.parentObject = parentObject;
         this.dialog = dialog;
         this.parentUiNode = parentUiNode;
         this.newObject = newObject;
         this.libraryUpdater = libraryUpdater;
     }
 
-    public NedAddNewElementCallback(DialogBox dialog, NedObject newObject,
+    public NedAddNewElementCallback(DialogBox dialog, NedObject newObject, NedObject parentObject,
             TreeItem parentUiNode) {
-        this(dialog, newObject, parentUiNode, null);
+        this(dialog, newObject, parentObject, parentUiNode, null);
     }
 
     @Override
@@ -78,6 +80,8 @@ public class NedAddNewElementCallback implements AsyncCallback<Boolean> {
 
     private void refreshTree() {
         NedTreeItem newItem = new NedTreeItem(newObject);
+        
+        parentObject.childes.add(newObject);
         parentUiNode.addItem(newItem);
         parentUiNode.setState(true);
         newItem.getTree().setSelectedItem(newItem, true);

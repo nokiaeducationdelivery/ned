@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("NedCatalogServlet")
 public interface NedCatalogService extends RemoteService {
     List<NedObject> getLibraryList();
-    List<NedObject> getFullNode(String id);
+    NedObject getFullNode(String id);
     boolean updateItem(NedObject item);
     boolean checkIdAvailable(String id);
     boolean addNewItem(NedObject newItem);
@@ -32,4 +32,5 @@ public interface NedCatalogService extends RemoteService {
     List<NedUser> getUserList();
     boolean updateUsers(List<NedUser> users);
     List<NedLanguage> getLanguageList();
+    boolean updateItems(List<NedObject> itemList);
 }

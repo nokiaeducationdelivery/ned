@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 package org.ned.server.nedadminconsole.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class NedObject implements Serializable {
 
@@ -24,20 +25,26 @@ public class NedObject implements Serializable {
     public String type;
     public String data;
     public String description;
+    public int index;
     public String[] keywords;
     public String[] externalLinks;
-
+    
+    public ArrayList<NedObject> childes;
+ 
     public NedObject()
     {
     }
     
-    public NedObject(String id, String parentId, String name, String type, String data, String description, Object keywords, Object externalLinks)  {
+    public NedObject(String id, String parentId, String name, String type, String data, String description, int index, Object keywords, Object externalLinks)  {
         this.id = id;
         this.parentId = parentId;
         this.name = name;
         this.type = type;
         this.data = data;
         this.description = description;
+        this.index = index;
+        this.childes = new ArrayList<NedObject>();
+        
         if (keywords != null) {
             this.keywords = (String[])keywords;
         }

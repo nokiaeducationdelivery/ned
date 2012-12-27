@@ -39,25 +39,25 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 public class NedNewElementDialog extends DialogBox {
 
     private String type;
-    private String parentId;
+    private NedObject parentItem;
     private TextBox textBoxId;
     private TextBox textBoxName;
     private TreeItem parentTreeItem;
     private Label labelIdResult;
     private final String idRegExp = "^[a-zA-Z0-9]*$";
 
-    public NedNewElementDialog(String type, String parentId,
+    public NedNewElementDialog(String type, NedObject parentItem,
             TreeItem parentTreeItem) {
-        this(type, parentId, parentTreeItem, (NedLibraryListUpdater) null);
+        this(type, parentItem, parentTreeItem, (NedLibraryListUpdater) null);
     }
 
     /**
      * @wbp.parser.constructor
      */
-    public NedNewElementDialog(String type, String parentId,
+    public NedNewElementDialog(String type, NedObject parentItem,
             TreeItem parentTreeItem, NedLibraryListUpdater libraryUpdater) {
         this.type = type;
-        this.parentId = parentId;
+        this.parentItem = parentItem;
         this.parentTreeItem = parentTreeItem;
         setText(NedRes.instance().newElemDlgAddNew() + " " + type);
 
@@ -184,24 +184,33 @@ public class NedNewElementDialog extends DialogBox {
         public void onClick(ClickEvent event) {
             String itemName = textBoxName.getText();
             if (itemName != null && !itemName.trim().isEmpty()) {
-                NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
-                        .create(NedCatalogService.class);
+                NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT.create(NedCatalogService.class);
+                
                 ServiceDefTarget serviceDef = (ServiceDefTarget) service;
                 serviceDef.setServiceEntryPoint("NedCatalogServlet");
+                
+                String parentId = null;
+                int newItemIndex = 0;
+
                 if (type.equals("Media Item")) {
                     type = "Undefined";
-                } else if (type.equals("Library")) {
-                    parentId = null;
                 }
+                
+                if ( !type.equals( "Library" ) ) {
+                    parentId = parentItem.id;
+                    newItemIndex = parentItem.childes.size() + 1; 
+                }
+                
                 String id = textBoxId.getText();
                 if (id == null || id.trim().trim().isEmpty()) {
                     id = new NedStringGenerator().nextString();
                     textBoxId.setText(id);
                 }
+                
                 NedObject newObject = new NedObject(id, parentId,
-                        itemName.trim(), type, null, null, null, null);
+                        itemName.trim(), type, null, null, newItemIndex, null, null);
                 NedAddNewElementCallback serviceCallback = new NedAddNewElementCallback(
-                        NedNewElementDialog.this, newObject, parentTreeItem,
+                        NedNewElementDialog.this, newObject, parentItem, parentTreeItem,
                         libraryUpdater);
                 service.addNewItem(newObject, serviceCallback);
             } else {

@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
 *******************************************************************************/
 package org.ned.server.nedadminconsole.client.widgets;
 
+import java.util.ArrayList;
+
 import org.ned.server.nedadminconsole.client.NedCatalogService;
 import org.ned.server.nedadminconsole.client.NedCatalogServiceAsync;
 import org.ned.server.nedadminconsole.client.NedConstant;
@@ -17,6 +19,7 @@ import org.ned.server.nedadminconsole.client.NedDataModel;
 import org.ned.server.nedadminconsole.client.NedRes;
 import org.ned.server.nedadminconsole.client.callbacks.NedDeleteItemCallback;
 import org.ned.server.nedadminconsole.client.callbacks.NedUpdateItemCallback;
+import org.ned.server.nedadminconsole.client.callbacks.NedMoveItemCallback;
 import org.ned.server.nedadminconsole.client.dialogs.NedAlert;
 import org.ned.server.nedadminconsole.client.dialogs.NedUploadDialog;
 import org.ned.server.nedadminconsole.client.interfaces.ConfirmCallback;
@@ -222,6 +225,7 @@ public class NedItemEditor extends Composite implements NedModelListener {
                 HasHorizontalAlignment.ALIGN_RIGHT);
         buttonDelete.setWidth("100%");
         horizontalPanel_4.setCellWidth(buttonDelete, "25%");
+        
 
         // decoratorPanel.add(verticalPanel);
         setVisible(false);
@@ -305,6 +309,50 @@ public class NedItemEditor extends Composite implements NedModelListener {
         }
         return resultStringBuilder.toString();
     }
+    
+//    private class MoveItemCommand implements ClickHandler{
+//
+//    	boolean moveUp;
+//    	
+//    	public MoveItemCommand( boolean moveUp ){
+//    		this.moveUp = moveUp;
+//    	}
+//    	
+//		@Override
+//		public void onClick(ClickEvent event) {
+//			NedObject currentItem = model.getCurrentObject();
+//			NedObject secondItem = null;
+//			
+//			if( moveUp ){
+//				secondItem = model.findPreviousObject( currentItem );
+//			}else{
+//				secondItem = model.findNextObject( currentItem );
+//			}
+//			
+//			if( secondItem == null ){
+//				return;
+//			}
+//
+//			if( moveUp ){
+//				currentItem.index--;
+//				secondItem.index++;				
+//			}else{
+//				currentItem.index++;
+//				secondItem.index--;
+//			}
+//			
+//			ArrayList<NedObject> updateItems = new ArrayList<NedObject>();
+//			updateItems.add(currentItem);
+//			updateItems.add(secondItem);
+//			
+//            NedCatalogServiceAsync service = (NedCatalogServiceAsync) GWT
+//                    .create(NedCatalogService.class);
+//            ServiceDefTarget serviceDef = (ServiceDefTarget) service;
+//            serviceDef.setServiceEntryPoint("NedCatalogServlet");
+//            NedMoveItemCallback serviceCallback = new NedMoveItemCallback( model, moveUp );
+//            service.updateItems(updateItems, serviceCallback);
+//		}
+//    }
 
     private class UpdateItemCommand implements ClickHandler {
         @Override
@@ -423,4 +471,9 @@ public class NedItemEditor extends Composite implements NedModelListener {
     public void objectDeleted(NedDataModel source, String objectType) {
         setVisible(false);
     }
+
+	@Override
+	public void objectMoved(NedDataModel source, boolean moveUp) {
+        // no implementation required
+	}
 }

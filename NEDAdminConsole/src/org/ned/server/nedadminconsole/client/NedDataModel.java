@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import org.ned.server.nedadminconsole.shared.NedObject;
 
 import com.google.gwt.user.client.ui.TreeItem;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class NedDataModel implements NedLibrarySelector {
     private NedObject currentLibrary = null;
     private NedObject currentObject = null;
 
-    private List<NedObject> nedLibraryContent = null;
+    private NedObject nedLibrary;
 
     private List<NedModelListener> listeners = new LinkedList<NedModelListener>();
     private TreeItem currentTreeItem;
@@ -35,6 +36,66 @@ public class NedDataModel implements NedLibrarySelector {
             currentObject = library;
             broadcastLibraryChanged();
         }
+    }
+    
+    public NedObject findPreviousObject(NedObject item){   	
+    	//find parent
+    	NedObject parent = findObjectById(item.parentId);
+
+    	if(parent == null){
+    		return null;
+    	}
+    	
+    	//iterate parent
+    	for( NedObject obj : parent.childes ){
+    		if(obj.index == ( item.index - 1 ) ){
+    			return obj;
+    		}
+    	}
+
+    	return null;
+    }
+    
+    public NedObject findNextObject(NedObject item){
+    	//find parent
+    	NedObject parent = findObjectById(item.parentId);
+
+    	if(parent == null){
+    		return null;
+    	}
+    	
+    	//iterate parent
+    	for( NedObject obj : parent.childes ){
+    		if(obj.index == ( item.index + 1 ) ){
+    			return obj;
+    		}
+    	}
+
+    	return null;    	
+    }
+    
+    public NedObject findObjectById(String objId){
+    	if( nedLibrary.id.equals( objId ) ){
+    		return nedLibrary;
+    	}else{
+    		return findChildById(nedLibrary, objId);
+    	}
+    }
+    
+    public NedObject findChildById( NedObject current, String objId ){
+
+    	NedObject searchedObj = null;
+    	for( NedObject nedObj : current.childes ){
+    		if( nedObj.id.equals( objId ) ){
+    			return nedObj;
+    		}else{
+    			searchedObj = findChildById(nedObj, objId);
+    			if( searchedObj != null ){
+    				return searchedObj;
+    			}
+    		}
+    	}
+    	return searchedObj;
     }
 
     public NedObject getCurrentLibrary() {
@@ -83,9 +144,15 @@ public class NedDataModel implements NedLibrarySelector {
             listener.objectChanged(this);
         }
     }
+    
+    private void boradcastObjectMoved(boolean moveUp){
+    	for( NedModelListener listener : listeners ){
+    		listener.objectMoved( this, moveUp );//TODO remove second argument
+    	}
+    }
 
-    public List<NedObject> getNedLibrary() {
-        return nedLibraryContent;
+    public NedObject getNedLibrary() {
+    	return nedLibrary;
     }
 
     public NedObject getCurrentObject() {
@@ -101,8 +168,8 @@ public class NedDataModel implements NedLibrarySelector {
         currentTreeItem = null;
     }
 
-    public void libraryLoad(List<NedObject> libraryContent) {
-        this.nedLibraryContent = libraryContent;
+    public void libraryLoad(NedObject libraryContent) {
+        this.nedLibrary = libraryContent;
         broadcastLibraryLoad();
     }
 
@@ -122,5 +189,9 @@ public class NedDataModel implements NedLibrarySelector {
         for (NedModelListener listener : listeners) {
             listener.objectDeleted(this, currentObject.type);
         }
+    }
+    
+    public void objectMoved(boolean moveUp){
+    	boradcastObjectMoved(moveUp);
     }
 }

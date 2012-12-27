@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -19,35 +19,65 @@ import java.util.List;
 import org.ned.server.nedadminconsole.shared.NedObject;
 
 public class NedObjectUtils {
-	public static List<NedObject> GenerateSortedList(ResultSet sqlResults)
+	
+
+	
+	public static NedObject GenerateSortedList(ResultSet sqlResults, String rootId)
 			throws SQLException {
 		List<NedObject> temp = new ArrayList<NedObject>();
 		while (sqlResults.next()) {
 			temp.add(GetSingleElement(sqlResults));
 		}
-		return PerformTreeSorting(temp);
+		
+		NedObject library = prepereNastedTree(temp, rootId); 
+		
+		return library;
 	}
-
-	private static List<NedObject> PerformTreeSorting(List<NedObject> source) {
-		List<NedObject> retval = new ArrayList<NedObject>();
-		int iterator = -1;
-		while (!source.isEmpty()) {
-			int childPosition = -1;
-			if (iterator < 0) {
-				retval.add(source.remove(0));
-				iterator++;
-			} else {
-				if ((childPosition = source.indexOf(retval.get(iterator))) >= 0) {
-					retval.add(source.remove(childPosition));
-					iterator = retval.size() - 1;
-				}
-				if (childPosition == -1) {
-					iterator--;
-				}
+	
+	public static boolean updateIndexes( NedObject library ){
+		
+		boolean updated  = false;
+		NedObject child = null;
+		for( int idx = 0; idx < library.childes.size(); idx++ ){
+			child = library.childes.get(idx);
+			if( updateIndexes( child ) ){
+				updated = true;
+			}
+			if( child.index == 0 ){
+				child.index = idx + 1;
+				updated = true;
 			}
 		}
-		return retval;
+		
+		return updated;
 	}
+	
+	private  static NedObject prepereNastedTree( List<NedObject> source, String rootId ){
+		NedObject library = null; 
+		for(NedObject obj : source){
+			if( obj.id.equals(rootId) ){
+				library = obj;
+				break;
+			}
+		}
+		//update indexes
+		//find childs 
+		if( library != null ){
+			addChildsForObject(library, source);			
+		}
+		return library;
+	}
+	
+	private static void addChildsForObject(NedObject currentObj, List<NedObject> allObjects ){
+		currentObj.childes = new ArrayList<NedObject>();
+		for( NedObject obj : allObjects ){
+			if( obj.parentId != null && obj.parentId.equals( currentObj.id ) ){
+				currentObj.childes.add(obj);
+				addChildsForObject(obj, allObjects);
+			}
+		}
+	}
+
 
 	public static NedObject GetSingleElement(ResultSet sqlResults)
 			throws SQLException {
@@ -61,9 +91,15 @@ public class NedObjectUtils {
 			linksArray = resultArray.getArray();
 		}
 		NedObject newObject = new NedObject(sqlResults.getString("elementid"),
-				sqlResults.getString("parentid"), sqlResults.getString("name"),
-				sqlResults.getString("type"), sqlResults.getString("data"),
-				sqlResults.getString("description"), keywordsArray, linksArray);
+				sqlResults.getString("parentid"), 
+				sqlResults.getString("name"),
+				sqlResults.getString("type"), 
+				sqlResults.getString("data"),
+				sqlResults.getString("description"),
+				sqlResults.getInt("index"),
+				keywordsArray,
+				linksArray
+				);
 		return newObject;
 	}
 
