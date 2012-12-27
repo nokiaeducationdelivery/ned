@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -94,6 +94,12 @@ public interface NedResource extends Constants{
     String mainLanguage();
     
     String statisticsDownload();
+    String downloadAllStats();
+    String downloadSelectDate();
+    String statisticsFrom();
+    String statisticsTo();
+    String statisticsChooseMethod();
+    String statisticsWrongDate();
     
     String mainTabLibraryManager();
     

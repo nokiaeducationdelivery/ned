@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2011 Nokia Corporation
+* Copyright (c) 2011-2012 Nokia Corporation
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -53,6 +53,19 @@ public class NedStatisticsFileServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
+        long  startDate = 0;
+        long endDate = 0;
+        
+        if(request.getParameter("from") != null && request.getParameter("to") != null)
+        {
+            startDate = Long.valueOf(request.getParameter("from"));
+            endDate = Long.valueOf(request.getParameter("to"));
+        }
+        
+        System.out.print("request parameters");
+        System.out.print( startDate );
+        System.out.print( endDate );
+        
         ServletOutputStream outputStream = response.getOutputStream();
         ServletContext context = getServletConfig().getServletContext();
         String mimetype = context.getMimeType(filename);
@@ -65,7 +78,7 @@ public class NedStatisticsFileServlet extends HttpServlet {
             response.setHeader("Content-Disposition", "attachment; filename=\""
                     + filename + "\"");
 
-            writeStatistics(writer);
+            writeStatistics(writer, startDate, endDate);
 
         writer.close();
         outputStream.flush();
@@ -73,12 +86,12 @@ public class NedStatisticsFileServlet extends HttpServlet {
 
     }
 
-    private void writeStatistics(PrintWriter writer) {
+    private void writeStatistics(PrintWriter writer, long startDate, long endDate) {
 
         PostgresConnection connection = new PostgresConnection();
 
         try {
-            connection.getFullStatistics(writer);
+                connection.getFullStatistics(startDate, endDate, writer);
         } catch (Exception ex) {
             // TODO Auto-generated catch block
             Logger.getLogger(NedStatisticsFileServlet.class.getName()).log(

@@ -326,11 +326,11 @@ public class PostgresConnection {
         sqlStatement.executeUpdate();
     }
 
-    public void getFullStatistics( PrintWriter writer ) throws NamingException, SQLException, IOException {
+    public void getFullStatistics( long startDate, long endDate,  PrintWriter writer ) throws NamingException, SQLException, IOException {
         connect();
         PreparedStatement sqlStatement = sqlConnection.prepareStatement( getStatistics );
         ResultSet results = sqlStatement.executeQuery();
-        List<String[]> res = toArray( results );
+        List<String[]> res = toArray( results, startDate, endDate );
 
         CSVWriter csvWriter = new CSVWriter( writer );
 
@@ -338,7 +338,7 @@ public class PostgresConnection {
 
     }
 
-    private List<String[]> toArray( ResultSet results ) throws SQLException {
+    private List<String[]> toArray( ResultSet results, long startDate, long endDate ) throws SQLException {
         ResultSetHelperService helper = new ResultSetHelperService();
         List<String[]> resultArray = new LinkedList<String[]>();
 
@@ -361,20 +361,31 @@ public class PostgresConnection {
         }
 
         if( timeColNo != -1 ) {
-            for( String[] row : resultArray ) {
-                row[timeColNo] = covertDataTime( row[timeColNo] );
+            for( int i = resultArray.size() - 1; i >= 0 ; i--) {
+                String[] row = resultArray.get(i);
+                String formattedTime = covertDataTime( row[timeColNo], startDate, endDate );
+                if(formattedTime != "")
+                {
+                    row[timeColNo] = formattedTime;
+                } else {
+                    resultArray.remove(i);
+                }
             }
         }
 
         return resultArray;
     }
 
-    private String covertDataTime( String aInputDate ) {
+    private String covertDataTime( String aInputDate, long startDate, long endDate ) {
         final String excelFormat = "%1$tY-%1$tm-%1$td %1$tT";
         Calendar cal;
         try {
             DateTimeFormatter parser2 = ISODateTimeFormat.dateHourMinuteSecondFraction();// yyyy-MM-dd'T'HH:mm:ss.SSS
             DateTime date = parser2.parseDateTime( aInputDate );
+            if( startDate != 0 && endDate != 0 && (date.isAfter(endDate) || date.isBefore(startDate)))
+            {
+                return "";
+            }
             cal = date.toCalendar( Locale.ENGLISH );
             return String.format( excelFormat , cal );
         } catch( Exception ex ) {
@@ -383,6 +394,10 @@ public class PostgresConnection {
         try {
             DateTimeFormatter parser2 = ISODateTimeFormat.dateTime();// yyyy-MM-dd'T'HH:mm:ss.SSSZ
             DateTime date = parser2.parseDateTime( aInputDate );
+            if( startDate != 0 && endDate != 0 && (date.isAfter(endDate) || date.isBefore(startDate)))
+            {
+                return "";
+            }
             cal = date.toCalendar( Locale.ENGLISH );
             return String.format( excelFormat, cal );
         } catch( Exception ex ) {
@@ -393,6 +408,10 @@ public class PostgresConnection {
 
         try {
             dateobj = new SimpleDateFormat( "EEE MMM dd HH:mm:ss zz yyyy", Locale.ENGLISH ).parse( aInputDate );
+            if( startDate != 0 && endDate != 0 && (dateobj.getTime() > endDate || dateobj.getTime() < startDate))
+            {
+                return "";
+            }
             cal.setTime( dateobj );
             return String.format( excelFormat, cal );
         } catch( ParseException e1 ) {
